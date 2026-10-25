@@ -1,4 +1,4 @@
-# lgtmworks.com
+# lgtm.ninja
 
 Company site for LGTM Works. Plain static HTML, served by GitHub Pages from the repo root.
 
