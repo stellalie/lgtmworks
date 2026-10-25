@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback · Euclid</title>
+<meta name="description" content="Report a bug, ask for a feature or tell us what you think of Euclid.">
+<link rel="canonical" href="https://lgtm.ninja/euclid/feedback/">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="../" style="display:flex;align-items:center;gap:10px;text-decoration:none"><img src="../icon.png" alt=""><span>Euclid</span></a>
+    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
+    <div class="links">
+      <a href="../#why">Why</a>
+      <a href="../features/">Features</a>
+      <a href="../plugins/">Plugins</a>
+      <a href="../#pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <article class="legal">
+    <h2>Feedback</h2>
+    <p class="sub">Bug, idea or gripe: it goes straight to the team that builds Euclid.</p>
+
+    <form id="feedback" class="feedback">
+      <fieldset>
+        <legend>What kind?</legend>
+        <label><input type="radio" name="kind" value="Bug" checked> Bug</label>
+        <label><input type="radio" name="kind" value="Idea"> Idea</label>
+        <label><input type="radio" name="kind" value="Question"> Question</label>
+        <label><input type="radio" name="kind" value="Other"> Other</label>
+      </fieldset>
+      <label>Summary
+        <input name="summary" required maxlength="120" placeholder="Clipboard search misses images">
+      </label>
+      <label>Details
+        <textarea name="details" rows="7" placeholder="What happened, what you expected, steps to reproduce."></textarea>
+      </label>
+      <div class="two-fields">
+        <label>Euclid version <input name="version" placeholder="e.g. 1.2.0"></label>
+        <label>macOS <input name="macos" placeholder="e.g. 26.1"></label>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="submit" name="via" value="email">Send by email</button>
+        <button class="btn" type="submit" name="via" value="github">Post a public GitHub issue</button>
+      </div>
+      <p class="fine">Email opens your mail app with this filled in and goes privately to <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>. GitHub posts it in the open on <a href="https://github.com/stellalie/euclid-bar-releases/issues">euclid-bar-releases</a> (needs a GitHub account). Nothing is sent from this page.</p>
+    </form>
+  </article>
+
+  <footer>
+    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+    <a href="../terms/">Terms</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../refunds/">Refunds</a>
+    <a href="./">Feedback</a>
+    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+  </footer>
+</div>
+<script>
+  // No backend: the form composes an email or a prefilled GitHub issue.
+  // The app's "Send Feedback…" menu item passes ?v=<version>&os=<macOS>.
+  const form = document.getElementById("feedback");
+  const params = new URLSearchParams(location.search);
+  form.version.value = params.get("v") || "";
+  form.macos.value = params.get("os") || "";
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = form.elements;
+    const kind = f.kind.value;
+    const title = `[${kind}] ${f.summary.value.trim()}`;
+    const body = [
+      f.details.value.trim(),
+      "",
+      `Euclid: ${f.version.value.trim() || "?"}`,
+      `macOS: ${f.macos.value.trim() || "?"}`,
+    ].join("\n");
+    const enc = encodeURIComponent;
+    location.href = e.submitter && e.submitter.value === "github"
+      ? `https://github.com/stellalie/euclid-bar-releases/issues/new?title=${enc(title)}&body=${enc(body)}`
+      : `mailto:hello@lgtm.ninja?subject=${enc("Euclid feedback: " + title)}&body=${enc(body)}`;
+  });
+</script>
+<!-- Cloudflare Web Analytics: cookie-free page views -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "153c6065866e4bef9595b3c0df2fc248"}'></script>
+</body>
+</html>

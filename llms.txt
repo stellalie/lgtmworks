@@ -1,0 +1,7 @@
+# Euclid
+
+> A native macOS launcher for developers. Every action is a shell command in ~/.config/euclid/config.toml; plugins are folders with a plugin.toml and a script that prints JSON lines.
+
+- [Plugin guide for agents](https://lgtm.ninja/euclid/plugins/AGENTS.md): the full plugin format, with rules and examples
+- [Plugins and actions](https://lgtm.ninja/euclid/plugins/): directory of plugins and copy-paste actions
+- [Every feature](https://lgtm.ninja/euclid/features/)
