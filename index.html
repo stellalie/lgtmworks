@@ -4,51 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LGTM Works</title>
-<meta name="description" content="A tiny dev shop in Sydney making small, fast tools for developers. Makers of Euclid.">
+<meta name="description" content="An independent software company in Sydney, building small, serious tools for developers. Makers of Euclid.">
 <meta property="og:title" content="LGTM Works">
-<meta property="og:description" content="A tiny dev shop in Sydney making small, fast tools for developers. Makers of Euclid.">
+<meta property="og:description" content="Small, serious tools for developers. Made in Sydney. Makers of Euclid.">
 <meta property="og:url" content="https://lgtmworks.com/">
 <link rel="canonical" href="https://lgtmworks.com/">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
-<link rel="preload" href="caveat.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
 
   <nav>
-    <img src="logo.svg" alt="">
-    <a class="wordmark" href="/">lgtm works</a>
+    <a class="brand" href="/"><img src="logo.svg" alt=""><span>LGTM Works</span></a>
     <div class="links">
-      <a href="https://euclid.lgtmworks.com/">Euclid</a>
-      <a href="mailto:hello@lgtmworks.com">Say hi</a>
+      <a href="#products">Products</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
     </div>
   </nav>
 
-  <main class="intro">
-    <h1>We make <span class="scribble">little tools<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8c30-4 62-6.5 98-5.5 30 .8 58 2.6 97 .5"/></svg></span> for developers.</h1>
-    <p>LGTM Works is a tiny dev shop in Sydney. We build the tools we want on our own Macs:
-      quick to open, set up in a text file, and gone when you're done with them.</p>
-    <p>You pay once, with <b>no subscriptions</b>. Bring your own AI. And everything ships when it looks good to us, hence the name.</p>
+  <header class="hero">
+    <p class="status"><span class="dot"></span>All checks have passed</p>
+    <h1>Looks good<br>to us.</h1>
+    <p class="lead">LGTM Works is an independent software company in Sydney.
+      We build small, serious tools for developers. Every release is reviewed by a human before it ships.</p>
+  </header>
 
-    <div class="note hand">
-      <svg viewBox="0 0 46 52" aria-hidden="true"><path d="M8 4c-3 14 1 28 14 37 4 2.6 8 4 13 4.6"/><path d="M27 39.5c3 2.4 6 4.3 9 6-3.4 1.6-6.6 3.4-9.6 5.6"/></svg>
-      the first one
-    </div>
+  <section id="products">
+    <p class="label">Products</p>
     <a class="product" href="https://euclid.lgtmworks.com/">
       <img src="euclid.png" alt="">
-      <div>
-        <h3>Euclid</h3>
-        <p>The shortest path from thought to command. A launcher for macOS where every action is a shell command.</p>
+      <div class="body">
+        <h2>Euclid</h2>
+        <p>The shortest path from thought to command.</p>
       </div>
-      <span class="go">→</span>
+      <p class="meta mono">macOS<br>Shipped</p>
     </a>
-    <p class="soon hand">more soon, probably.</p>
-  </main>
+    <div class="product pending">
+      <span class="ghost"></span>
+      <div class="body">
+        <h2>Next</h2>
+        <p>In review.</p>
+      </div>
+      <p class="meta mono">—<br>Pending</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <p class="label">Process</p>
+    <ol class="steps">
+      <li><span class="mono">01</span><h3>Write it.</h3><p>Small tools, configured in plain text. Nothing that needs an account.</p></li>
+      <li><span class="mono">02</span><h3>Read it.</h3><p>All of it.</p></li>
+      <li><span class="mono">03</span><h3>Approve it.</h3><p>In that order.</p></li>
+    </ol>
+    <p class="terms">No subscriptions. Bring your own AI. Your data stays on your machine.</p>
+  </section>
+
+  <section id="contact">
+    <p class="label">Contact</p>
+    <p class="big">Requesting changes?<br><a href="mailto:hello@lgtmworks.com">hello@lgtmworks.com</a></p>
+  </section>
 
   <footer>
     <span>© 2026 LGTM Works · Made in Sydney</span>
-    <a href="mailto:hello@lgtmworks.com">hello@lgtmworks.com</a>
+    <span class="mono">1 approving review</span>
   </footer>
 
 </div>
