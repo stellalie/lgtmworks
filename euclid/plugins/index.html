@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Euclid plugins and actions: extend it in any language</title>
+<meta name="description" content="Extend Euclid two ways: paste a one-line action into your TOML config, or add a plugin (a folder with a script that prints JSON lines) in one command. GitHub, Linear, Slack, AI agents and more.">
+<link rel="canonical" href="https://lgtm.ninja/euclid/plugins/">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="../" style="display:flex;align-items:center;gap:10px;text-decoration:none"><img src="../icon.png" alt=""><span>Euclid</span></a>
+    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
+    <div class="links">
+      <a href="../#why">Why</a>
+      <a href="../features/">Features</a>
+      <a href="./">Plugins</a>
+      <a href="../#pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <section style="padding-top:32px">
+    <h2>Plugins</h2>
+    <p class="sub">Two ways to add to Euclid, both plain text you can read.</p>
+    <p class="fine">Plugins are in the <a href="https://github.com/stellalie/euclid-bar-releases/releases/tag/dev">current beta build</a> (the Download button) and arrive for everyone else in v1.2. Actions work in every version.</p>
+    <div class="tabs" role="tablist" aria-label="Plugins or actions">
+      <button type="button" role="tab" id="tab-plugins" aria-controls="plugins" aria-selected="true">
+        <b>Plugins</b><span>A folder you add with one command. Adds things to search, answers as you type, or a badge on the bar.</span>
+      </button>
+      <button type="button" role="tab" id="tab-actions" aria-controls="actions" aria-selected="false">
+        <b>Actions</b><span>A few lines you paste into your config. Runs a command on what you typed.</span>
+      </button>
+    </div>
+  </section>
+
+  <div role="tabpanel" id="plugins" aria-labelledby="tab-plugins">
+  <section class="panel-top">
+    <div class="jump">
+      <a href="#vibe">Build with your agent</a>
+      <a href="#directory">Directory</a>
+      <a href="#how">How plugins work</a>
+      <a href="#share">Share one</a>
+    </div>
+  </section>
+
+  <figure class="shot">
+    <img src="panel.jpg" alt="The Euclid panel searching “filters”: GitHub issues and PRs from the github plugin, and a “1.2M tok · $4.10” badge from the tokens plugin on the search bar" loading="lazy">
+    <figcaption>The real panel: GitHub rows come from the <code>github</code> plugin's script; the <code>1.2M tok · $4.10</code> pill is the <code>tokens</code> badge.</figcaption>
+  </figure>
+
+  <section id="vibe">
+    <h2>Build one with your agent</h2>
+    <p class="sub">Euclid keeps the whole plugin format in <code>~/.config/euclid/plugins/AGENTS.md</code>, written for
+      coding agents. Your agent reads it, writes the folder, runs <code>--try-plugin</code> until it prints OK, and the
+      plugin shows up in the bar the moment it's saved.</p>
+    <div class="builder">
+      <div class="agentdemo" aria-label="Illustration: an agent builds a Vercel plugin" role="img">
+        <div class="bar"><i></i><i></i><i></i><span>your agent</span></div>
+        <div class="screen" id="agentScreen"></div>
+      </div>
+      <div class="ask">
+        <h3>1. Describe what you want</h3>
+        <textarea id="want" rows="3" spellcheck="false">shows my 20 most recent Vercel deployments, with project, state and age, and opens each one</textarea>
+        <h3>2. Copy the prompt into Claude Code, Codex or any agent with a shell</h3>
+        <pre class="prompt" id="promptOut"><button class="copy" type="button">Copy</button></pre>
+        <p class="fine">The prompt points at the <a href="AGENTS.md">plugin guide</a>, the whole format on one page.
+          Euclid also keeps a copy at <code>~/.config/euclid/plugins/AGENTS.md</code>.
+          Agent without web access? <button type="button" class="linkish" id="copyGuide">Copy the guide</button> and paste it in first.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="card"><div class="num">1</div><h3>Ask</h3><p>Paste a prompt into Claude Code, Codex or any agent with a shell.</p></div>
+      <div class="card"><div class="num">2</div><h3>It tests itself</h3><p><code>--try-plugin</code> prints the exact rows or error, so the agent fixes its own mistakes.</p></div>
+      <div class="card"><div class="num">3</div><h3>It's live</h3><p>Euclid watches the plugins folder and reloads on save. You don't restart anything.</p></div>
+    </div>
+
+    <h3 class="example">Worked example: a token badge</h3>
+    <p class="muted-p">Paste this, and a minute later the bar shows <span class="badge-demo">1.2M tok · $4.10</span>. Click it and
+      <code>ccusage</code> opens in a new Ghostty tab.</p>
+    <pre class="prompt"><button class="copy" type="button">Copy</button>Read ~/.config/euclid/plugins/AGENTS.md. Then make a Euclid plugin in
+~/.config/euclid/plugins/tokens that shows today's Claude Code token use and
+cost as a badge on the bar, using `npx -y ccusage@latest daily --json`.
+Clicking the badge should open `ccusage daily` in a new Ghostty tab
+(ghostty-run tab ...). Refresh every 5 minutes.
+Run `/Applications/Euclid.app/Contents/MacOS/euclid-bar --try-plugin tokens`
+and fix the plugin until it prints OK.</pre>
+
+    <p class="muted-p" style="margin-top:22px">What the agent ends up writing:</p>
+    <div class="two">
+      <pre><span class="c"># tokens/plugin.toml</span>
+name = "Claude tokens"
+
+<span class="k">[badge]</span>
+run   = "./today.sh"
+icon  = "gauge.with.dots.needle.33percent"
+refresh_minutes = 5
+click = 'ghostty-run tab npx -y ccusage@latest daily'</pre>
+      <pre><span class="c"># tokens/today.sh</span>
+#!/bin/sh
+set -eu
+npx -y ccusage@latest daily \
+    --since "$(date +%Y%m%d)" --json |
+  jq -r '[.totals.totalTokens, .totals.totalCost] | @tsv' |
+  awk -F '\t' '{ printf "%.1fM tok · $%.2f\n", $1/1e6, $2 }'</pre>
+    </div>
+
+    <h3 class="example">More prompts to start from</h3>
+    <div class="recipes">
+      <article class="recipe">
+        <header><h3>Vercel deploys</h3><span class="cat">Source</span></header>
+        <p>Recent deploys in search; <kbd>↵</kbd> opens one.</p>
+        <pre><button class="copy" type="button">Copy</button>Read ~/.config/euclid/plugins/AGENTS.md and make a Euclid
+plugin "vercel" that lists my 20 most recent Vercel deployments
+(vercel ls --json) with project, state and age, opening each URL.
+Test it with euclid-bar --try-plugin vercel until it prints OK.</pre>
+      </article>
+      <article class="recipe">
+        <header><h3>Time zones</h3><span class="cat">Answer</span></header>
+        <p>Type <code>tz 3pm</code> and see that time in your team's cities.</p>
+        <pre><button class="copy" type="button">Copy</button>Read ~/.config/euclid/plugins/AGENTS.md and make a Euclid
+plugin "tz" with an [answer] on prefix "tz": `tz 3pm` shows 3pm
+local time in Sydney, London and San Francisco, one row each,
+↵ copies the row. Use only date(1). Test with
+euclid-bar --try-plugin tz "tz 3pm" until it prints OK.</pre>
+      </article>
+      <article class="recipe">
+        <header><h3>On-call status</h3><span class="cat">Badge</span></header>
+        <p>Who's on call, right on the bar.</p>
+        <pre><button class="copy" type="button">Copy</button>Read ~/.config/euclid/plugins/AGENTS.md and make a Euclid
+plugin "oncall" with a badge showing who is on call now from
+PagerDuty (token from the Keychain, service euclid-pagerduty),
+refreshed every 15 minutes; clicking opens the schedule.
+Test with euclid-bar --try-plugin oncall until it prints OK.</pre>
+      </article>
+      <article class="recipe">
+        <header><h3>Runbooks</h3><span class="cat">Source</span></header>
+        <p>Every runbook in your team repo, searchable.</p>
+        <pre><button class="copy" type="button">Copy</button>Read ~/.config/euclid/plugins/AGENTS.md and make a Euclid
+plugin "runbooks" that lists the markdown files in
+~/work/ops/runbooks by their first heading, opens them in my
+editor, and shows the first 40 lines in the preview.
+Test with euclid-bar --try-plugin runbooks until it prints OK.</pre>
+      </article>
+    </div>
+  </section>
+
+  <section id="directory">
+    <h2>Directory</h2>
+    <p class="sub">Euclid stays small: features only some people need ship as plugins, so you add the ones
+      you use with one command. Each is a few lines of script you can read in
+      <code>~/.config/euclid/plugins/&lt;name&gt;/</code>, then change however you like.</p>
+    <div class="recipes">
+      <article class="recipe">
+        <video class="clip" src="../clips/plugins.mp4" poster="../clips/plugins.jpg" muted loop playsinline preload="none" aria-label="The GitHub plugin in the Euclid panel"></video>
+        <header><h3>GitHub</h3><span class="cat">Source</span></header>
+        <p>Your open PRs, PRs waiting on your review, and issues assigned to you. Uses the <code>gh</code> CLI, so there's no token to manage.</p>
+        <p class="example">Type <code>fix login</code> → your PR “Fix login on Safari” with a <b>Review</b> label.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add github</pre>
+        <details class="howitworks"><summary>How it's written · 26 lines</summary>
+          <p>Every 5 minutes <code>items.sh</code> asks the <code>gh</code> CLI for your PRs and issues and prints one JSON row each.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;GitHub&quot;
+description = &quot;Your open PRs, PRs waiting on your review, and issues assigned to you. Uses the GitHub CLI: brew install gh &amp;&amp; gh auth login&quot;
+
+[source]
+run = &quot;./items.sh&quot;
+refresh_minutes = 5
+
+[[action]]
+name = &quot;Search GitHub code&quot;
+run  = &#x27;open &quot;https://github.com/search?type=code&amp;q=$EUCLID_QUERY_URL&quot;&#x27;
+
+[settings]
+limit = 30          # per list; override in config.toml with [plugin.github] limit = 50</pre><p class="file">items.sh</p><pre>#!/bin/sh
+# Prints one JSON object per line for Euclid. `gh` does the auth and the JSON (--jq).
+set -eu
+command -v gh &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs the GitHub CLI: brew install gh &amp;&amp; gh auth login&quot; &gt;&amp;2; exit 1; }
+limit=${EUCLID_SETTING_LIMIT:-30}
+row=&#x27;{title, subtitle: &quot;\(.repository.nameWithOwner) · #\(.number)&quot;, open: .url, id: .url, icon: &quot;arrow.triangle.pull&quot;}&#x27;
+
+gh search prs --review-requested=@me --state=open --limit &quot;$limit&quot; --json number,title,url,repository \
+  --jq &quot;.[] | $row + {label: \&quot;Review\&quot;, suggest: true} | tojson&quot;
+gh search prs --author=@me --state=open --limit &quot;$limit&quot; --json number,title,url,repository \
+  --jq &quot;.[] | $row + {label: \&quot;Your PR\&quot;} | tojson&quot;
+gh search issues --assignee=@me --state=open --limit &quot;$limit&quot; --json number,title,url,repository \
+  --jq &quot;.[] | $row + {label: \&quot;Issue\&quot;, icon: \&quot;smallcircle.filled.circle\&quot;} | tojson&quot;</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-linear.mp4" poster="../clips/plugin-linear.jpg" muted loop playsinline preload="none" aria-label="The Linear plugin in the Euclid panel"></video>
+        <header><h3>Linear</h3><span class="cat">Source</span></header>
+        <p>Linear issues assigned to you and not done. <kbd>↵</kbd> opens one, <kbd>⌘C</kbd> copies its ID. The API key lives in the Keychain.</p>
+        <p class="example">Type <code>eng-</code> → your open Linear issues, newest first.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add linear</pre>
+        <details class="howitworks"><summary>How it's written · 24 lines</summary>
+          <p>Every 5 minutes <code>items.sh</code> sends one GraphQL query with your key from the Keychain and prints a row per issue.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Linear&quot;
+description = &quot;Linear issues assigned to you. Store a personal API key (Linear › Settings › Security &amp; access) in the Keychain: security add-generic-password -s euclid-linear -a \&quot;$USER\&quot; -w &#x27;&lt;key&gt;&#x27;&quot;
+
+[source]
+run = &quot;./items.sh&quot;
+refresh_minutes = 5
+
+[settings]
+token_command = &quot;security find-generic-password -s euclid-linear -w&quot;
+limit = 50</pre><p class="file">items.sh</p><pre>#!/bin/sh
+# Linear issues assigned to you and not done. ↵ opens the issue, ⌘C copies its ID (ENG-123).
+set -eu
+command -v jq &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs jq: brew install jq&quot; &gt;&amp;2; exit 1; }
+key=$(eval &quot;$EUCLID_SETTING_TOKEN_COMMAND&quot; 2&gt;/dev/null) || key=&quot;&quot;
+[ -n &quot;$key&quot; ] || { echo &quot;no Linear API key: security add-generic-password -s euclid-linear -a \&quot;$USER\&quot; -w &#x27;&lt;key&gt;&#x27;&quot; &gt;&amp;2; exit 1; }
+query=&#x27;query($n: Int) { viewer { assignedIssues(first: $n, orderBy: updatedAt,
+  filter: { state: { type: { nin: [&quot;completed&quot;, &quot;canceled&quot;] } } }) {
+  nodes { identifier title url state { name } team { key } } } } }&#x27;
+jq -n --arg q &quot;$query&quot; --argjson n &quot;${EUCLID_SETTING_LIMIT:-50}&quot; &#x27;{query: $q, variables: {n: $n}}&#x27; |
+  curl -fsS https://api.linear.app/graphql -H &quot;Authorization: $key&quot; -H &#x27;Content-Type: application/json&#x27; --data @- |
+  jq -c &#x27;if .errors then error(.errors[0].message) else .data.viewer.assignedIssues.nodes[] end
+         | {title, subtitle: &quot;\(.identifier) · \(.state.name)&quot;, open: .url, id: .url, copy: .identifier,
+            label: .team.key, icon: &quot;checklist&quot;}&#x27;</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-slack.mp4" poster="../clips/plugin-slack.jpg" muted loop playsinline preload="none" aria-label="The Slack plugin in the Euclid panel"></video>
+        <header><h3>Slack</h3><span class="cat">Source + answer</span></header>
+        <p>Jump to any channel you're in, and type <code>slack deploy failed</code> to search messages. Needs a user token.</p>
+        <p class="example">Type <code>slack deploy failed</code> → the 10 best matching messages.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add slack</pre>
+        <details class="howitworks"><summary>How it's written · 35 lines</summary>
+          <p>A <b>source</b> lists your channels every hour; an <b>answer</b> runs <code>search.sh</code> only when you type the <code>slack</code> prefix.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Slack&quot;
+description = &quot;Jump to your Slack channels, and search messages with `slack &lt;words&gt;`. Needs a user token (xoxp-) with channels:read, groups:read and search:read, in the Keychain: security add-generic-password -s euclid-slack -a \&quot;$USER\&quot; -w &#x27;&lt;token&gt;&#x27;&quot;
+
+[source]
+run = &quot;./channels.sh&quot;
+refresh_minutes = 60
+
+[answer]
+run    = &quot;./search.sh&quot;
+prefix = &quot;slack&quot;
+
+[settings]
+token_command = &quot;security find-generic-password -s euclid-slack -w&quot;</pre><p class="file">channels.sh</p><pre>#!/bin/sh
+# Channels you&#x27;re in; ↵ opens them in the Slack app.
+set -eu
+command -v jq &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs jq: brew install jq&quot; &gt;&amp;2; exit 1; }
+token=$(eval &quot;$EUCLID_SETTING_TOKEN_COMMAND&quot; 2&gt;/dev/null) || token=&quot;&quot;
+[ -n &quot;$token&quot; ] || { echo &quot;no Slack token: security add-generic-password -s euclid-slack -a \&quot;$USER\&quot; -w &#x27;&lt;xoxp-token&gt;&#x27;&quot; &gt;&amp;2; exit 1; }
+api() { curl -fsS -H &quot;Authorization: Bearer $token&quot; &quot;https://slack.com/api/$1&quot;; }
+team=$(api auth.test | jq -r &#x27;if .ok then .team_id else error(.error) end&#x27;)
+api &quot;users.conversations?types=public_channel,private_channel&amp;exclude_archived=true&amp;limit=1000&quot; |
+  jq -c --arg team &quot;$team&quot; &#x27;if .ok then .channels[] else error(.error) end
+         | {title: &quot;#\(.name)&quot;, subtitle: (.purpose.value // &quot;&quot;), open: &quot;slack://channel?team=\($team)&amp;id=\(.id)&quot;,
+            id: .id, icon: (if .is_private then &quot;lock&quot; else &quot;number&quot; end)}&#x27;</pre><p class="file">search.sh</p><pre>#!/bin/sh
+# `slack deploy failed`: the 10 best matching messages; ↵ opens the message.
+set -eu
+token=$(eval &quot;$EUCLID_SETTING_TOKEN_COMMAND&quot; 2&gt;/dev/null) || token=&quot;&quot;
+[ -n &quot;$token&quot; ] || { echo &quot;no Slack token (see plugin.toml)&quot; &gt;&amp;2; exit 1; }
+q=$(jq -rn --arg q &quot;$1&quot; &#x27;$q | @uri&#x27;)
+curl -fsS -H &quot;Authorization: Bearer $token&quot; &quot;https://slack.com/api/search.messages?count=10&amp;query=$q&quot; |
+  jq -c &#x27;if .ok then .messages.matches[] else error(.error) end
+         | {title: (.text | gsub(&quot;\\s+&quot;; &quot; &quot;) | .[0:140]), subtitle: &quot;#\(.channel.name) · \(.username // &quot;&quot;)&quot;,
+            open: .permalink, id: .permalink, icon: &quot;bubble.left&quot;, preview: .text}&#x27;</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-tokens.mp4" poster="../clips/plugin-tokens.jpg" muted loop playsinline preload="none" aria-label="The Claude tokens plugin in the Euclid panel"></video>
+        <header><h3>Claude tokens</h3><span class="cat">Badge</span></header>
+        <p>Today's Claude Code tokens and cost on the search bar, from <code>ccusage</code>. Click it for the full report in a terminal.</p>
+        <p class="example">Always on the bar: <code>1.2M tok · $4.10</code>. Click it for the full report.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add tokens</pre>
+        <details class="howitworks"><summary>How it's written · 18 lines</summary>
+          <p>A <b>badge</b>: every 5 minutes <code>today.sh</code> runs <code>ccusage</code>, which reads Claude Code's local logs, and prints one line.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Claude tokens&quot;
+description = &quot;Today&#x27;s Claude Code token use and cost on the bar, from ccusage. Click it for the full report.&quot;
+
+[badge]
+run   = &quot;./today.sh&quot;
+icon  = &quot;gauge.with.dots.needle.33percent&quot;
+refresh_minutes = 5
+click = &#x27;ghostty-run tab npx -y ccusage@latest daily&#x27;</pre><p class="file">today.sh</p><pre>#!/bin/sh
+# Prints today&#x27;s Claude Code usage for the badge, e.g. &quot;1.2M tok · $4.10&quot;. Needs Node (npx) and jq.
+set -eu
+command -v jq &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs jq: brew install jq&quot; &gt;&amp;2; exit 1; }
+if command -v ccusage &gt;/dev/null 2&gt;&amp;1; then set -- ccusage; else set -- npx -y ccusage@latest; fi
+&quot;$@&quot; daily --since &quot;$(date +%Y%m%d)&quot; --json |
+  jq -r &#x27;[.totals.totalTokens // 0, .totals.totalCost // 0] | @tsv&#x27; |
+  awk -F &#x27;\t&#x27; &#x27;{ t = $1 + 0
+                 s = t &gt;= 1e6 ? sprintf(&quot;%.1fM&quot;, t / 1e6) : t &gt;= 1e3 ? sprintf(&quot;%.0fk&quot;, t / 1e3) : t
+                 printf &quot;%s tok · $%.2f\n&quot;, s, $2 }&#x27;</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-contacts.mp4" poster="../clips/plugin-contacts.jpg" muted loop playsinline preload="none" aria-label="The Contacts plugin in the Euclid panel"></video>
+        <header><h3>Contacts</h3><span class="cat">Source</span></header>
+        <p>People by name, company, email or phone. <kbd>↵</kbd> opens the card, <kbd>⌘C</kbd> copies the email. macOS asks once for access.</p>
+        <p class="example">Type <code>ada</code> → Ada Lovelace · Analytical Engines · ada@example.com.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add contacts</pre>
+        <details class="howitworks"><summary>How it's written · 21 lines</summary>
+          <p>A JavaScript for Automation script reads the Contacts app once an hour and prints a row per person.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Contacts&quot;
+description = &quot;People in Contacts by name, company, email or phone. ↵ opens the card, ⌘C copies the email. macOS asks once for access.&quot;
+
+[source]
+run = &quot;osascript -l JavaScript ./people.js&quot;
+refresh_minutes = 60</pre><p class="file">people.js</p><pre>// Everyone in Contacts, one JSON line each. Reads whole columns at once, which is fast.
+function run() {
+  const people = Application(&#x27;Contacts&#x27;).people
+  const ids = people.id(), names = people.name(), orgs = people.organization()
+  const emails = people.emails.value(), phones = people.phones.value()
+  return ids.map((id, i) =&gt; {
+    const name = names[i] || orgs[i]
+    if (!name) return null
+    const email = (emails[i] || [])[0], phone = (phones[i] || [])[0]
+    return JSON.stringify({
+      title: name, subtitle: [orgs[i] !== name ? orgs[i] : null, email, phone].filter(Boolean).join(&#x27; · &#x27;),
+      open: &#x27;addressbook://&#x27; + id, copy: email || phone || name, id, icon: &#x27;person.crop.circle&#x27;,
+    })
+  }).filter(Boolean).join(&#x27;\n&#x27;)
+}</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-shortcuts.mp4" poster="../clips/plugin-shortcuts.jpg" muted loop playsinline preload="none" aria-label="The Shortcuts plugin in the Euclid panel"></video>
+        <header><h3>Shortcuts</h3><span class="cat">Source + action</span></header>
+        <p>Every shortcut from the Shortcuts app, by name. <kbd>↵</kbd> runs it through the <code>shortcuts</code> CLI.</p>
+        <p class="example">Type <code>water</code> → your “Log water” shortcut; <kbd>↵</kbd> runs it.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add shortcuts</pre>
+        <details class="howitworks"><summary>How it's written · 16 lines</summary>
+          <p><code>list.sh</code> prints one row per shortcut from <code>shortcuts list</code>, with a <code>run</code> command on each.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Shortcuts&quot;
+description = &quot;Your Shortcuts by name. ↵ runs one.&quot;
+
+[source]
+run = &quot;./list.sh&quot;
+refresh_minutes = 30
+
+[[action]]
+name = &quot;Open in Shortcuts&quot;
+run  = &#x27;open &quot;shortcuts://open-shortcut?name=$EUCLID_QUERY_URL&quot;&#x27;</pre><p class="file">list.sh</p><pre>#!/bin/sh
+# One row per shortcut; ↵ runs it with the shortcuts CLI.
+set -eu
+command -v jq &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs jq: brew install jq&quot; &gt;&amp;2; exit 1; }
+shortcuts list | jq -Rc &#x27;select(length &gt; 0)
+  | {title: ., subtitle: &quot;Shortcut&quot;, run: &quot;shortcuts run \(@sh)&quot;, id: ., icon: &quot;square.2.layers.3d&quot;}&#x27;</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-define.mp4" poster="../clips/plugin-define.jpg" muted loop playsinline preload="none" aria-label="The Dictionary plugin in the Euclid panel"></video>
+        <header><h3>Dictionary</h3><span class="cat">Answer</span></header>
+        <p>Type <code>define serendipity</code> for the macOS Dictionary's definition. <kbd>↵</kbd> opens Dictionary, <kbd>⌘C</kbd> copies it.</p>
+        <p class="example">Type <code>define serendipity</code> → the definition, right in the bar.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add define</pre>
+        <details class="howitworks"><summary>How it's written · 20 lines</summary>
+          <p>An <b>answer</b> on the <code>define</code> prefix calls macOS Dictionary Services and prints one row.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Dictionary&quot;
+description = &quot;`define serendipity`: the macOS Dictionary&#x27;s definition. ↵ opens it in Dictionary, ⌘C copies it.&quot;
+
+[answer]
+run    = &#x27;osascript -l JavaScript ./define.js &quot;$1&quot;&#x27;
+prefix = &quot;define&quot;</pre><p class="file">define.js</p><pre>// The definition from the dictionaries you turned on in Dictionary.app, via Dictionary Services.
+ObjC.import(&#x27;CoreServices&#x27;)
+
+function run(argv) {
+  const word = argv.join(&#x27; &#x27;)
+  const open = &#x27;dict://&#x27; + encodeURIComponent(word)
+  const ref = $.DCSCopyTextDefinition(null, $(word), $.NSMakeRange(0, word.length))
+  const text = ref ? ObjC.unwrap(ObjC.castRefToObject(ref)) : &#x27;&#x27;
+  if (!text) return JSON.stringify({ title: &#x27;No definition for “&#x27; + word + &#x27;”&#x27;, subtitle: &#x27;Open Dictionary&#x27;, open, icon: &#x27;character.book.closed&#x27; })
+  return JSON.stringify({
+    title: text.replace(/\s+/g, &#x27; &#x27;).slice(0, 140), subtitle: word + &#x27; · Dictionary&#x27;,
+    open, copy: text, preview: text, id: open, icon: &#x27;character.book.closed&#x27;,
+  })
+}</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <video class="clip" src="../clips/plugin-currency.mp4" poster="../clips/plugin-currency.jpg" muted loop playsinline preload="none" aria-label="The Currency plugin in the Euclid panel"></video>
+        <header><h3>Currency</h3><span class="cat">Answer</span></header>
+        <p>Type <code>100 usd to eur</code>. Daily rates from a free API, no key, cached for an hour. <kbd>↵</kbd> copies the amount.</p>
+        <p class="example">Type <code>100 usd to eur</code> → the amount in euros at today's rate; <kbd>↵</kbd> copies it.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add currency</pre>
+        <details class="howitworks"><summary>How it's written · 26 lines</summary>
+          <p>An <b>answer</b> with a regex <code>match</code>: <code>convert.sh</code> fetches free daily rates, caches them for an hour, and prints the result.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Currency&quot;
+description = &quot;`100 usd to eur`: converts with daily rates from open.er-api.com (free, no key). ↵ copies the amount.&quot;
+
+[answer]
+run    = &quot;./convert.sh&quot;
+match  = &#x27;(?i)^\d[\d,.]*\s*[a-z]{3}\s+(to|in)\s+[a-z]{3}$&#x27;
+prefix = &quot;cur&quot;      # or `cur 100 usd eur`</pre><p class="file">convert.sh</p><pre>#!/bin/sh
+# Rates are cached for an hour outside this folder (writing here would reload the plugin).
+set -euf
+command -v jq &gt;/dev/null 2&gt;&amp;1 || { echo &quot;needs jq: brew install jq&quot; &gt;&amp;2; exit 1; }
+# &quot;100usd TO eur&quot; → 100 USD EUR
+set -- $(printf &#x27;%s&#x27; &quot;$1&quot; | tr &#x27;a-z&#x27; &#x27;A-Z&#x27; | sed -E &#x27;s/,//g; s/([0-9])([A-Z])/\1 \2/; s/ (TO|IN) / /&#x27;)
+[ $# -eq 3 ] || { echo &quot;try: 100 usd to eur&quot; &gt;&amp;2; exit 1; }
+amount=$1 from=$2 to=$3
+cache=&quot;${TMPDIR:-/tmp}/euclid-rates-$from.json&quot;
+if [ ! -s &quot;$cache&quot; ] || [ -n &quot;$(find &quot;$cache&quot; -mmin +60)&quot; ]; then
+  # Not a currency (e.g. `10 kgs in lbs`): show nothing.
+  curl -fsS --max-time 1.5 &quot;https://open.er-api.com/v6/latest/$from&quot; &gt; &quot;$cache.tmp&quot; 2&gt;/dev/null || { rm -f &quot;$cache.tmp&quot;; exit 0; }
+  mv &quot;$cache.tmp&quot; &quot;$cache&quot;
+fi
+jq -c --arg to &quot;$to&quot; --arg from &quot;$from&quot; --arg n &quot;$amount&quot; &#x27;
+  select(.result == &quot;success&quot; and .rates[$to] != null)
+  | ($n | tonumber) as $a | .rates[$to] as $r | ($a * $r * 100 | round / 100 | tostring) as $v
+  | {title: &quot;\($v) \($to)&quot;, subtitle: &quot;\($n) \($from) · 1 \($from) = \($r) \($to) · \(.time_last_update_utc)&quot;,
+     copy: $v, icon: &quot;dollarsign.arrow.circlepath&quot;, label: &quot;Currency&quot;}&#x27; &quot;$cache&quot;</pre>
+        </details>
+      </article>
+    </div>
+    <p class="fine"><code>euclid-bar</code> is <code>/Applications/Euclid.app/Contents/MacOS/euclid-bar</code>. To type it
+      short, run <code>alias euclid-bar=/Applications/Euclid.app/Contents/MacOS/euclid-bar</code>.
+      Any git repository with a <code>plugin.toml</code> at its top level installs the same way:
+      <code>euclid-bar --plugin add https://github.com/you/euclid-plugin-deploys</code>.</p>
+  </section>
+
+
+  <section id="how">
+    <h2>How plugins work</h2>
+    <p class="sub">Everything is optional, but a plugin needs at least one part. The full reference is
+      <code>AGENTS.md</code> in your plugins folder.</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>Part</th><th>What it adds</th><th>When it runs</th></tr></thead>
+        <tbody>
+          <tr><td><code>[source]</code></td><td>Items in search: PRs, deploys, runbooks</td><td>In the background, every <code>refresh_minutes</code> (30 s limit)</td></tr>
+          <tr><td><code>[answer]</code></td><td>A reply to what you type, below the instant results</td><td>Only on its <code>prefix</code> or <code>match</code> regex (2 s limit)</td></tr>
+          <tr><td><code>[badge]</code></td><td>A short status chip on the search bar; <code>click</code> runs a command</td><td>In the background, every <code>refresh_minutes</code></td></tr>
+          <tr><td><code>[[action]]</code></td><td>Actions in <kbd>⌘K</kbd>, after your own</td><td>When you pick one</td></tr>
+          <tr><td><code>[settings]</code></td><td>Defaults you override in config.toml with <code>[plugin.&lt;id&gt;]</code></td><td>Passed as <code>$EUCLID_SETTING_&lt;KEY&gt;</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two" style="margin-top:24px">
+      <div>
+        <h3 class="example" style="margin-top:0">A script prints rows</h3>
+        <p class="muted-p">One JSON object per line. Only <code>title</code> is required. <kbd>↵</kbd> does the first of
+          <code>open</code>, <code>paste</code>, <code>copy</code> or <code>run</code> that's set. Add <code>"suggest":true</code>
+          to show a row when the box is empty.</p>
+      </div>
+      <pre>{"title": "Fix login on Safari",
+ "subtitle": "acme/web · #412",
+ "open": "https://github.com/acme/web/pull/412",
+ "label": "Review",
+ "icon": "arrow.triangle.pull",
+ "suggest": true}</pre>
+    </div>
+
+    <ul class="plain" style="margin-top:24px">
+      <li><b>Any language.</b> Scripts run in your login shell inside the plugin folder, so Homebrew tools are on your PATH.</li>
+      <li><b>Safe with your input.</b> What you type only reaches a script as <code>$1</code> and <code>$EUCLID_QUERY</code>. It's never pasted into a command.</li>
+      <li><b>Never slows typing.</b> Plugin results land below the instant ones, and a slow script is stopped at its time limit.</li>
+      <li><b>Secrets stay out of files.</b> Read tokens from the Keychain in the script (<code>security find-generic-password</code>), the same way Bitbucket and Jira already work.</li>
+    </ul>
+  </section>
+
+  <section id="share">
+    <h2>Share one</h2>
+    <div class="two">
+      <div>
+        <p class="muted-p">A plugin is a folder, so a git repo is all it takes to share one. Anyone installs it with
+          <code>--plugin add &lt;git URL&gt;</code>, and Euclid prints the commands it runs so they can read them first.</p>
+        <p class="muted-p">A team can keep its plugins in a shared repo and point everyone's config at it. Pulling
+          the repo reloads them.</p>
+        <p class="muted-p">Built something useful? <button type="button" class="linkish" data-open-submit>Send it in</button> and it may land in the directory.</p>
+      </div>
+      <pre><span class="c"># ~/.config/euclid/config.toml</span>
+<span class="k">[plugins]</span>
+paths    = ["~/work/team/euclid-plugins"]
+disabled = ["tokens"]
+
+<span class="k">[plugin.github]</span>        <span class="c"># your values for its settings</span>
+limit = 50</pre>
+    </div>
+    <p class="fine">Plugins run as you, like your actions do, so read a plugin before you add it.</p>
+  </section>
+
+  </div>
+
+  <div role="tabpanel" id="actions" aria-labelledby="tab-actions" hidden>
+  <section class="panel-top">
+    <ol class="howto">
+      <li><b>Copy</b> an action below.</li>
+      <li><b>Paste</b> it at the end of <code>~/.config/euclid/config.toml</code> and save. Euclid picks it up straight away.</li>
+      <li><b>Use it:</b> type something and run it any of the ways below.</li>
+    </ol>
+    <div class="runways" id="run">
+      <h3>Four ways to run an action</h3>
+      <ul class="plain">
+        <li><kbd>⌘K</kbd> <b>Action list.</b> Type your words, press <kbd>⌘K</kbd>, pick one with the arrows or its number. Works for every action.</li>
+        <li><kbd>⌘↵</kbd> <kbd>⌘1</kbd>–<kbd>⌘9</kbd> <b>By position.</b> Actions keep the order they have in your config: the first one is <kbd>⌘1</kbd> and <kbd>⌘↵</kbd>, the second <kbd>⌘2</kbd>, and so on. Put your favourite first.</li>
+        <li><b>No match? They're already there.</b> When nothing matches what you typed (usually a question), your actions fill the list, so <kbd>↵</kbd> runs the first one. That's why the AI agent actions don't need an alias.</li>
+        <li><code>alias</code> <b>A word that runs it directly.</b> Add <code>alias = "gh"</code> and typing <code>gh swift testing</code> + <kbd>↵</kbd> runs that action on “swift testing”, skipping the list. Worth it for lookups you do every day; cards with one show an <span class="alias">alias</span> tag.</li>
+      </ul>
+      <p class="fine">Want one from anywhere, without opening Euclid? Give it a <code>hotkey = "ctrl+opt+g"</code> too; it runs with an empty query.</p>
+    </div>
+    <p class="fine steps-note">What you typed reaches the command as <code>$1</code>, or URL-encoded as <code>$EUCLID_QUERY_URL</code>. It's passed as an argument, so it can't run anything by itself.
+      Made a good one? <button type="button" class="linkish" data-open-submit>Share it</button></p>
+    <div class="filters" role="group" aria-label="Filter recipes">
+      <button type="button" aria-pressed="true" data-cat="">All</button>
+      <button type="button" aria-pressed="false" data-cat="AI agents">AI agents</button>
+      <button type="button" aria-pressed="false" data-cat="Code">Code</button>
+      <button type="button" aria-pressed="false" data-cat="Packages">Packages</button>
+      <button type="button" aria-pressed="false" data-cat="Atlassian">Atlassian</button>
+      <button type="button" aria-pressed="false" data-cat="Terminal">Terminal</button>
+      <button type="button" aria-pressed="false" data-cat="Utilities">Utilities</button>
+      <button type="button" aria-pressed="false" data-cat="Docs">Docs</button>
+    </div>
+    <div class="recipes">
+      <article class="recipe" data-cat="AI agents">
+        <header><h3>Ask Claude in a new Ghostty tab</h3><span class="cat">AI agents</span></header>
+        <p>Type a question, ⌘↵, and Claude Code opens in a fresh tab with it.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Ask Claude in a new Ghostty tab"
+run  = 'ghostty-run tab claude "$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="AI agents">
+        <header><h3>Codex in a herdr split</h3><span class="cat">AI agents</span></header>
+        <p>Keep your current pane; Codex answers next to it.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Codex in a herdr split"
+run  = 'herdr-run split codex "$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="AI agents">
+        <header><h3>Ask pi in a new Ghostty window</h3><span class="cat">AI agents</span></header>
+        <p>A separate window for longer sessions.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Ask pi in a new window"
+run  = 'ghostty-run window pi "$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Code">
+        <header><h3>Search GitHub code</h3><span class="cat">Code</span><span class="alias" title="Type this, a space, then your words">alias: <code>gh</code></span></header>
+        <p>Type gh, a space, and what you are looking for.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Search GitHub code"
+alias = "gh"
+run   = 'open "https://github.com/search?type=code&amp;q=$EUCLID_QUERY_URL"'</pre>
+      </article>
+      <article class="recipe" data-cat="Code">
+        <header><h3>Open a GitHub repo</h3><span class="cat">Code</span></header>
+        <p>Type owner/repo and land on it.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Open repo"
+run  = 'open "https://github.com/$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Code">
+        <header><h3>Open a project in VS Code</h3><span class="cat">Code</span></header>
+        <p>Any path or repo name under ~/code.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Open in VS Code"
+run  = 'code "$HOME/code/$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Packages">
+        <header><h3>npm package</h3><span class="cat">Packages</span><span class="alias" title="Type this, a space, then your words">alias: <code>npm</code></span></header>
+        <p>Jump straight to a package page.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "npm package"
+alias = "npm"
+run   = 'open "https://www.npmjs.com/package/$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Packages">
+        <header><h3>Rust crate</h3><span class="cat">Packages</span><span class="alias" title="Type this, a space, then your words">alias: <code>rs</code></span></header>
+        <p>docs.rs for any crate.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Rust crate docs"
+alias = "rs"
+run   = 'open "https://docs.rs/$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Packages">
+        <header><h3>Go package</h3><span class="cat">Packages</span><span class="alias" title="Type this, a space, then your words">alias: <code>go</code></span></header>
+        <p>pkg.go.dev search.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Go package"
+alias = "go"
+run   = 'open "https://pkg.go.dev/search?q=$EUCLID_QUERY_URL"'</pre>
+      </article>
+      <article class="recipe" data-cat="Atlassian">
+        <header><h3>Open a Jira issue</h3><span class="cat">Atlassian</span><span class="alias" title="Type this, a space, then your words">alias: <code>jira</code></span></header>
+        <p>Type jira ABC-123. Set your site once in [env].</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[env]</span>
+JIRA = "https://your-site.atlassian.net"
+
+<span class="k">[[action]]</span>
+name  = "Open Jira issue"
+alias = "jira"
+run   = 'open "$JIRA/browse/$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Atlassian">
+        <header><h3>Search Confluence</h3><span class="cat">Atlassian</span><span class="alias" title="Type this, a space, then your words">alias: <code>wiki</code></span></header>
+        <p>Find the page you half remember. Uses <code>JIRA</code> from the recipe above.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Search Confluence"
+alias = "wiki"
+run   = 'open "$JIRA/wiki/search?text=$EUCLID_QUERY_URL"'</pre>
+      </article>
+      <article class="recipe" data-cat="Terminal">
+        <header><h3>man page in Ghostty</h3><span class="cat">Terminal</span><span class="alias" title="Type this, a space, then your words">alias: <code>man</code></span></header>
+        <p>Read the manual in a new tab.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "man page"
+alias = "man"
+run   = 'ghostty-run tab man "$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Terminal">
+        <header><h3>tldr in Ghostty</h3><span class="cat">Terminal</span><span class="alias" title="Type this, a space, then your words">alias: <code>tl</code></span></header>
+        <p>The short version of a man page (needs tldr installed).</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "tldr"
+alias = "tl"
+run   = 'ghostty-run tab tldr "$1"'</pre>
+      </article>
+      <article class="recipe" data-cat="Terminal">
+        <header><h3>Free a port</h3><span class="cat">Terminal</span><span class="alias" title="Type this, a space, then your words">alias: <code>port</code></span></header>
+        <p>Type port 3000 to kill whatever is listening on it.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Kill process on port"
+alias = "port"
+run   = 'lsof -ti tcp:"$1" | xargs kill'</pre>
+      </article>
+      <article class="recipe" data-cat="Utilities">
+        <header><h3>Pretty-print JSON to clipboard</h3><span class="cat">Utilities</span></header>
+        <p>Paste minified JSON, get it formatted (needs jq).</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name = "Pretty JSON to clipboard"
+run  = 'printf %s "$1" | jq . | pbcopy'</pre>
+      </article>
+      <article class="recipe" data-cat="Utilities">
+        <header><h3>Random password to clipboard</h3><span class="cat">Utilities</span><span class="alias" title="Type this, a space, then your words">alias: <code>pw</code></span></header>
+        <p>24 random bytes, base64, no newline.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "New password"
+alias = "pw"
+run   = 'openssl rand -base64 24 | tr -d "\n" | pbcopy'</pre>
+      </article>
+      <article class="recipe" data-cat="Utilities">
+        <header><h3>Explain a shell command</h3><span class="cat">Utilities</span><span class="alias" title="Type this, a space, then your words">alias: <code>explain</code></span></header>
+        <p>explainshell breaks a command into its parts.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "Explain shell command"
+alias = "explain"
+run   = 'open "https://explainshell.com/explain?cmd=$EUCLID_QUERY_URL"'</pre>
+      </article>
+      <article class="recipe" data-cat="Docs">
+        <header><h3>Search MDN</h3><span class="cat">Docs</span><span class="alias" title="Type this, a space, then your words">alias: <code>mdn</code></span></header>
+        <p>Web platform docs.</p>
+        <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
+name  = "MDN"
+alias = "mdn"
+run   = 'open "https://developer.mozilla.org/en-US/search?q=$EUCLID_QUERY_URL"'</pre>
+      </article>
+    </div>
+  </section>
+  </div>
+
+  <section class="share">
+    <h2>Made something worth sharing?</h2>
+    <p class="sub">Send in an action or a plugin. We try each one and add the good ones here, with your name if you like.</p>
+    <button type="button" class="btn primary" data-open-submit>Share an action or plugin</button>
+  </section>
+
+  <footer>
+    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+    <a href="../terms/">Terms</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../refunds/">Refunds</a>
+    <a href="../feedback/">Feedback</a>
+    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+    <a href="../">Home</a>
+    <span>For people who live in the terminal.</span>
+  </footer>
+</div>
+
+<dialog id="submit" aria-labelledby="submit-title">
+  <form method="dialog" class="feedback">
+    <h2 id="submit-title">Share an action or plugin</h2>
+    <p class="fine">This opens an email to hello@lgtm.ninja in your mail app. Nothing is sent until you press Send there.</p>
+    <label>What it does <input name="title" required placeholder="Open the current branch's PR"></label>
+    <label>The action's TOML, or a link to the plugin's repo <textarea name="toml" rows="6" required spellcheck="false" placeholder='[[action]]&#10;name = "…"&#10;run  = &#39;…&#39;&#10;&#10;or https://github.com/you/euclid-plugin-…'></textarea></label>
+    <label>Anything it needs <input name="needs" placeholder="the gh CLI, Ghostty…"></label>
+    <label>Credit it to <input name="credit" placeholder="Your name or @handle (optional)"></label>
+    <div class="actions">
+      <button class="btn primary" value="send">Open email</button>
+      <button class="btn" value="cancel" formnovalidate>Cancel</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  const dlg = document.getElementById('submit');
+  for (const b of document.querySelectorAll('[data-open-submit]')) b.addEventListener('click', () => dlg.showModal());
+  dlg.addEventListener('close', () => {
+    if (dlg.returnValue !== 'send') return;
+    const f = new FormData(dlg.querySelector('form'));
+    const body = [f.get('title'), '', f.get('toml'), '', 'Needs: ' + (f.get('needs') || '-'), 'Credit: ' + (f.get('credit') || '-')].join('\n');
+    location.href = 'mailto:hello@lgtm.ninja?subject=' + encodeURIComponent('Shared: ' + f.get('title')) + '&body=' + encodeURIComponent(body);
+  });
+  for (const b of document.querySelectorAll('.copy')) {
+    b.addEventListener('click', async () => {
+      const text = b.parentElement.textContent.replace(/^Copy(ed)?/, '');
+      try { await navigator.clipboard.writeText(text); b.textContent = 'Copied'; } catch { b.textContent = 'Select + ⌘C'; }
+      setTimeout(() => (b.textContent = 'Copy'), 1500);
+    });
+  }
+  const filters = document.querySelectorAll('.filters button');
+  for (const f of filters) {
+    f.addEventListener('click', () => {
+      for (const g of filters) g.setAttribute('aria-pressed', String(g === f));
+      for (const r of document.querySelectorAll('.recipe')) r.hidden = !!f.dataset.cat && r.dataset.cat !== f.dataset.cat;
+    });
+  }
+</script>
+<script>
+  // Tabs: #actions (or anything inside a panel) opens that panel.
+  const tabs = document.querySelectorAll('[role=tab]');
+  function show(id, push) {
+    for (const t of tabs) {
+      const on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', String(on));
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }
+    if (push) history.replaceState(null, '', id === 'actions' ? '#actions' : location.pathname);
+  }
+  for (const t of tabs) t.addEventListener('click', () => show(t.getAttribute('aria-controls'), true));
+  function fromHash() {
+    const el = location.hash && document.getElementById(location.hash.slice(1));
+    const panel = el && el.closest('[role=tabpanel]');
+    show(panel ? panel.id : 'plugins', false);
+    if (el && el.id !== 'actions' && el.id !== 'plugins') el.scrollIntoView();
+  }
+  addEventListener('hashchange', fromHash);
+  fromHash();
+</script>
+<script>
+  // Prompt builder: what you want → a prompt for your agent.
+  const want = document.getElementById('want'), out = document.getElementById('promptOut');
+  const copyBtn = out.querySelector('.copy');
+  function prompt() {
+    const w = want.value.trim().replace(/\.$/, '') || 'does what I describe';
+    return `Read https://lgtm.ninja/euclid/plugins/AGENTS.md (or ~/.config/euclid/plugins/AGENTS.md).
+Then make a Euclid plugin in ~/.config/euclid/plugins/ that ${w}.
+Pick a short id for the folder. Keep secrets in the Keychain, never in plugin.toml.
+Run /Applications/Euclid.app/Contents/MacOS/euclid-bar --try-plugin <id>
+and fix it until it prints OK, then tell me what to type in Euclid to see it.`;
+  }
+  function render() { out.textContent = ''; out.append(copyBtn, prompt()); }
+  want.addEventListener('input', render); render();
+  document.getElementById('copyGuide').addEventListener('click', async (e) => {
+    try { await navigator.clipboard.writeText(await (await fetch('AGENTS.md')).text()); e.target.textContent = 'Copied the guide'; }
+    catch { location.href = 'AGENTS.md'; }
+  });
+
+  // The agent demo: a scripted illustration, typed out line by line.
+  const screen = document.getElementById('agentScreen');
+  const script = [
+    ['you', '> make a Euclid plugin that shows my 20 most recent Vercel deployments'],
+    ['dim', '  Reading lgtm.ninja/euclid/plugins/AGENTS.md'],
+    ['ok',  '  ✓ Wrote ~/.config/euclid/plugins/vercel/plugin.toml'],
+    ['code','      [source]  run = "./items.sh"  refresh_minutes = 5'],
+    ['ok',  '  ✓ Wrote items.sh  (vercel ls --json | jq → one row per deploy)'],
+    ['dim', '  $ euclid-bar --try-plugin vercel'],
+    ['err', '    items.sh: jq: error: null (null) has no keys'],
+    ['dim', '  Fixing: deployments live under .deployments'],
+    ['dim', '  $ euclid-bar --try-plugin vercel'],
+    ['ok',  '    OK · source: 20 rows in 0.41 s'],
+    ['done','  Done. Open Euclid (⌥Space) and type "deploy".'],
+    ['bar', ''],
+  ];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  async function play() {
+    screen.textContent = '';
+    for (const [kind, text] of script) {
+      const line = document.createElement('div');
+      line.className = 'l ' + kind;
+      screen.append(line);
+      if (kind === 'bar') {
+        line.innerHTML = '<div class="mini"><div class="q">deploy<span class="caret"></span></div>'
+          + '<div class="r sel"><b>web</b> · Ready · 3m ago<span>Vercel</span></div>'
+          + '<div class="r"><b>docs</b> · Building · 1m ago<span>Vercel</span></div>'
+          + '<div class="r"><b>api</b> · Error · 12m ago<span>Vercel</span></div></div>';
+        continue;
+      }
+      if (reduce || kind !== 'you') { line.textContent = text; await wait(reduce ? 0 : 420); continue; }
+      for (let i = 1; i <= text.length; i++) { line.textContent = text.slice(0, i); await wait(18); }
+      await wait(400);
+    }
+    if (!reduce) { await wait(5000); play(); }
+  }
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); play(); } }).observe(screen);
+</script>
+<script>
+  // Clips play only while on screen.
+  const clipObserver = new IntersectionObserver((entries) => {
+    for (const e of entries) e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause();
+  }, { threshold: 0.4 });
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+    for (const v of document.querySelectorAll('video.clip')) clipObserver.observe(v);
+</script>
+<!-- Cloudflare Web Analytics: cookie-free page views -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "153c6065866e4bef9595b3c0df2fc248"}'></script>
+</body>
+</html>

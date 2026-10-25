@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Euclid: the shortest path from thought to command</title>
+<meta name="description" content="A native macOS launcher for developers. Every action is a shell command in a TOML file. Searches 10,000 items in 1.4 ms, offline, with no AI lock-in. Private and local. Free for personal use during the beta.">
+<meta property="og:title" content="Euclid: the shortest path from thought to command">
+<meta property="og:description" content="A native macOS launcher where every action is a shell command. 10,000 items searched in 1.4 ms, offline, free during the beta.">
+<meta property="og:image" content="https://lgtm.ninja/euclid/poster.jpg">
+<meta property="og:url" content="https://lgtm.ninja/euclid/">
+<link rel="canonical" href="https://lgtm.ninja/euclid/">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <img src="icon.png" alt="">
+    <span>Euclid</span>
+    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
+    <div class="links">
+      <a href="#why">Why</a>
+      <a href="#features">Features</a>
+      <a href="#offline">Privacy</a>
+      <a href="plugins/">Plugins</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <img class="icon" src="icon.png" alt="Euclid app icon">
+    <h1>The shortest path from <br>thought to command.</h1>
+    <p class="lead">A native macOS launcher for developers. Press <kbd>⌥Space</kbd>, type, hit <kbd>↵</kbd>.
+      Instant, offline, and configured in one TOML file you can read top to bottom.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/dev">Download for macOS</a>
+      <a class="btn" href="#pricing">Pricing</a>
+    </div>
+    <p class="fine">Free for personal use during the beta · macOS 14+ · Apple Silicon and Intel · signed and notarized</p>
+    <ul class="promises">
+      <li><b>1.4 ms</b> search</li>
+      <li><b>No subscription</b>, ever</li>
+      <li><b>Bring your own AI</b>, or none</li>
+      <li><b>Works offline</b></li>
+      <li><b>Your setup is one folder</b>, put it in git</li>
+    </ul>
+
+    <div class="demo">
+      <video src="demo.mp4" poster="poster.jpg" autoplay muted loop playsinline
+             aria-label="Euclid searching clipboard and history, sending a question to an AI agent, then plugins and hotkeys"></video>
+    </div>
+    <div class="speed"><b>10,000</b> items · <b>1.4 ms</b> worst case</div>
+  </header>
+
+  <section id="numbers">
+    <div class="stats">
+      <div><b>1.4 ms</b><span>worst-case search over 10,000 items</span></div>
+      <div><b>9 ms</b><span>to show the panel (median)</span></div>
+      <div><b>54 MB</b><span>memory at idle, 0% CPU</span></div>
+      <div><b>0</b><span>accounts, trackers or cloud syncs</span></div>
+    </div>
+    <p class="fine">Release build on a GitHub Actions macOS runner, 25 October 2026.
+      <a href="https://github.com/stellalie/euclid-bar-releases/blob/main/PERF.md">How we measure</a>.
+      The footer in the app shows the same timing on every search.</p>
+  </section>
+
+  <section id="why">
+    <h2>Why Euclid</h2>
+    <p class="sub">Not another extension store or AI subscription. A sharp tool you configure like the rest of your setup.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="num">01 · lightning fast</div>
+        <h3>Native Swift, no web views</h3>
+        <p>No Electron and no JavaScript runtime. Results update on every keystroke, and the footer
+          tells you how long it took.</p>
+      </div>
+      <div class="card">
+        <div class="num">02 · no AI lock-in</div>
+        <h3>Your agent, your model, your key</h3>
+        <p>AI is just another action. Hand a question to Claude Code, Codex, or a local model through
+          Ollama, in one keystroke. No Euclid AI plan, and none of it is required.</p>
+      </div>
+      <div class="card">
+        <div class="num">03 · offline by design</div>
+        <h3>Nothing leaves your Mac</h3>
+        <p>Your clipboard, history and index stay on disk. No account, no telemetry, and the licence
+          is checked offline. <a href="#offline">Every network call, listed.</a></p>
+      </div>
+      <div class="card">
+        <div class="num">04 · transparent config</div>
+        <h3>One TOML file, nothing hidden</h3>
+        <p>Every action is one shell line you can read in <code>~/.config/euclid/config.toml</code>.
+          It reloads on save and <code>--check-config</code> lints it in CI.</p>
+      </div>
+      <div class="card">
+        <div class="num">05 · extensible</div>
+        <h3>If it runs in a terminal, it's an action</h3>
+        <p>Scripts in <code>~/.config/euclid/bin</code> are on every action's PATH. Share a team config,
+          import Raycast and Alfred snippets, and let agents search Euclid over MCP.</p>
+      </div>
+      <div class="card">
+        <div class="num">06 · everything optional</div>
+        <h3>Switch off what you don't use</h3>
+        <p>Clipboard, browser history, files, notes, integrations, update checks: each is one line
+          in the config. Page indexing stays off until you turn it on.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="folder">
+    <h2>Your whole setup is one folder. Put it in git.</h2>
+    <p class="sub">Everything you configure lives in <code>~/.config/euclid</code>. Commit it with your dotfiles, and a new Mac is one <code>git clone</code> away.</p>
+    <div class="two">
+      <pre><span class="c">~/.config/euclid/</span>
+├── config.toml  <span class="c"># actions, snippets, hotkeys</span>
+├── bin/         <span class="c"># your scripts</span>
+└── plugins/     <span class="c"># one folder each</span>
+
+<span class="k">$</span> cd ~/.config/euclid
+<span class="k">$</span> git init &amp;&amp; git add .
+<span class="k">$</span> git commit -m "my euclid"</pre>
+      <ul class="plain">
+        <li><b>Review it like code.</b> Every change is a diff you can read, revert or share in a PR.</li>
+        <li><b>No secrets in the repo.</b> Tokens stay in the Keychain; plugins and integrations read them with a command.</li>
+        <li><b>No machine junk either.</b> Clipboard, history, indexes and the licence live in <code>~/Library/Application Support/Euclid</code>.</li>
+        <li><b>Share with your team.</b> <code>include</code> a team file and point <code>[plugins] paths</code> at a team repo; your own settings still win.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="different">
+    <h2>What you don't sign up for</h2>
+    <p class="sub">Launchers tend to grow accounts, AI plans and extension stores. Euclid keeps the box small and hands you the keys.</p>
+    <div class="compare">
+      <div class="row head"><span></span><span>Euclid</span><span>The usual launcher</span></div>
+      <div class="row"><span>Price</span><span><b>Pay once.</b> Free during the beta.</span><span>Monthly plan for AI, sync and themes</span></div>
+      <div class="row"><span>AI</span><span><b>Any agent or model you run</b>, local ones too</span><span>The vendor's AI, on the vendor's plan</span></div>
+      <div class="row"><span>Extending it</span><span><b>A script that prints JSON</b>, in any language</span><span>An SDK, a build step and a store review</span></div>
+      <div class="row"><span>Settings</span><span><b>One folder you keep in git</b>: config, scripts, plugins</span><span>A settings window and a cloud account</span></div>
+      <div class="row"><span>Your data</span><span><b>Stays on your Mac</b></span><span>Synced to someone's server</span></div>
+    </div>
+  </section>
+
+  <section id="offline">
+    <h2>Where your data goes</h2>
+    <p class="sub">Euclid works with the network unplugged. These are the only times it goes online.</p>
+    <div class="two">
+      <ul class="plain">
+        <li><b>Update checks</b> ask GitHub for the latest version. Turn them off with <code>[updates] check = false</code>.</li>
+        <li><b>Bitbucket and Jira</b>, only if you set them up, talk straight to your own server, with a token your own command fetches (Keychain, 1Password CLI).</li>
+        <li><b>Page indexing</b>, off by default, fetches pages you already visited so you can search their text.</li>
+        <li><b>Your actions</b> do whatever their shell line says, nothing more.</li>
+      </ul>
+      <ul class="plain">
+        <li><b>Never sent anywhere:</b> what you type, your clipboard, your history, your files, your usage counts.</li>
+        <li><b>Password managers:</b> copies from 1Password and friends are never recorded.</li>
+        <li><b>This website</b> counts page views with cookie-free Cloudflare Web Analytics. The app has no analytics at all.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Everything in the box</h2>
+    <p class="sub">Built in, on by default unless it says otherwise. Each one is a line in the config you can switch off.</p>
+    <div class="features">
+      <div class="fgroup">
+        <h3>Search</h3>
+        <ul>
+          <li><b>Apps, git projects and files</b>, files via Spotlight</li>
+          <li><b>Clipboard history</b>: text, images and copied files</li>
+          <li><b>Browser history</b> from Arc, Dia, Chrome, Safari and more</li>
+          <li><b>Obsidian notes</b> by title and text</li>
+          <li><b>Page text</b> of sites you visited <em>opt-in</em></li>
+          <li><b>Bitbucket and Jira</b>: your PRs, reviews and issues</li>
+        </ul>
+      </div>
+      <div class="fgroup">
+        <h3>Answers as you type</h3>
+        <ul>
+          <li><b>Calculator and units</b>: <code>1.5 gb in mb</code></li>
+          <li><b>Epoch ⇄ date</b>: <code>1697040000</code></li>
+          <li><b>JSON, JWT, base64, URL</b> decode and pretty-print</li>
+          <li><b>Colours</b>: <code>#ff8800</code> ⇄ <code>rgb()</code>, with a swatch</li>
+          <li><b>Fresh UUIDs</b>, and <code>↵</code> copies any answer</li>
+        </ul>
+      </div>
+      <div class="fgroup">
+        <h3>Without opening the panel</h3>
+        <ul>
+          <li><b>Text expansion</b>: type a snippet's keyword in any app <em>opt-in</em></li>
+          <li><b>Per-command hotkeys</b> for any app, project, action or snippet</li>
+          <li><b>Snippets</b> with <code>{date}</code> <code>{clipboard}</code> <code>{uuid}</code></li>
+          <li><b>MCP server</b>: your agents search what Euclid knows</li>
+        </ul>
+      </div>
+      <div class="fgroup">
+        <h3>Make it yours</h3>
+        <ul>
+          <li><b>Actions</b>: any shell line, on <code>⌘1</code>–<code>⌘9</code> and <code>⌘K</code></li>
+          <li><b>Project tasks</b>: <code>make</code>, <code>npm</code>, <code>just</code>, <code>cargo</code> in a new tab</li>
+          <li><b>Preview pane</b>: clips, images, READMEs, Quick Look</li>
+          <li><b>Learns what you pick</b>, plus aliases and favourites</li>
+          <li><b>Team config</b> via <code>include</code>, and Raycast/Alfred import</li>
+        </ul>
+      </div>
+    </div>
+    <p class="fine"><a href="features/">See the complete feature list →</a></p>
+  </section>
+
+  <section id="agent">
+    <h2>Describe a plugin. Your agent builds it.</h2>
+    <p class="sub">Say what you want in plain words. Paste the prompt into Claude Code, Codex or any agent with a shell.
+      It reads the guide, writes the plugin, tests it with <code>--try-plugin</code>, and it shows up in the bar on save.</p>
+    <div class="builder">
+      <div class="agentdemo" aria-label="Illustration: an agent builds a Vercel plugin" role="img">
+        <div class="bar"><i></i><i></i><i></i><span>your agent</span></div>
+        <div class="screen" id="agentScreen"></div>
+      </div>
+      <div class="ask">
+        <h3>1. Describe what you want</h3>
+        <textarea id="want" rows="3" spellcheck="false">shows my 20 most recent Vercel deployments, with project, state and age, and opens each one</textarea>
+        <h3>2. Copy the prompt into Claude Code, Codex or any agent with a shell</h3>
+        <pre class="prompt" id="promptOut"><button class="copy" type="button">Copy</button></pre>
+        <p class="fine">The prompt points at the <a href="plugins/AGENTS.md">plugin guide</a>, the whole format on one page.
+          Euclid also keeps a copy at <code>~/.config/euclid/plugins/AGENTS.md</code>.
+          Agent without web access? <button type="button" class="linkish" id="copyGuide">Copy the guide</button> and paste it in first.</p>
+      </div>
+    </div>
+
+    <p class="fine"><a href="plugins/#vibe">More prompts and how it works →</a></p>
+  </section>
+
+  <section id="plugins">
+    <h2>Plugins are just scripts</h2>
+    <p class="sub">A folder with a <code>plugin.toml</code> and a script in any language that prints one JSON object per line.
+      No SDK, no build step, no store. Save it and it's in the bar.</p>
+    <div class="two">
+      <pre><span class="c"># ~/.config/euclid/plugins/tokens/plugin.toml</span>
+name = "Claude tokens"
+
+<span class="k">[badge]</span>                     <span class="c"># a chip on the search bar</span>
+run   = "./today.sh"        <span class="c"># prints "1.2M tok · $4.10"</span>
+refresh_minutes = 5
+click = 'ghostty-run tab npx -y ccusage@latest daily'</pre>
+      <ul class="plain">
+        <li><b><code>[source]</code></b> adds items to search, refreshed in the background.</li>
+        <li><b><code>[answer]</code></b> replies to what you type, on a prefix or a regex.</li>
+        <li><b><code>[badge]</code></b> puts a live status on the bar.</li>
+        <li><b><code>[[action]]</code></b> adds commands to <code>⌘K</code>.</li>
+        <li><b>Let your AI write one.</b> The format ships as <code>AGENTS.md</code>: ask Claude Code or Codex, check it with <code>--try-plugin</code>.</li>
+      </ul>
+    </div>
+    <p class="fine" style="margin-top:22px">Ready to add, one command each:</p>
+    <div class="chips">
+      <code>github</code><code>linear</code><code>slack</code><code>tokens</code><code>currency</code><code>define</code><code>contacts</code><code>shortcuts</code>
+    </div>
+    <pre class="oneline">euclid-bar --plugin add github</pre>
+    <p class="fine"><a href="plugins/">Browse plugins and starter prompts →</a> · <a href="plugins/#actions">or paste a one-line action</a></p>
+  </section>
+
+  <section id="recipes">
+    <h2>Actions: one line each</h2>
+    <p class="sub">Your query arrives as <code>$1</code>, passed as an argument, never pasted into the command.</p>
+    <pre><span class="k">[[action]]</span>                                   <span class="c"># ⌘1 and ⌘↵</span>
+name = "Ask Claude in a new Ghostty tab"
+run  = 'ghostty-run tab claude "$1"'
+
+<span class="k">[[action]]</span>                                   <span class="c"># ⌘2</span>
+name = "Codex in a herdr split"
+run  = 'herdr-run split codex "$1"'
+
+<span class="k">[[action]]</span>                                   <span class="c"># a local model, no API key</span>
+name = "Ask Llama on this Mac"
+run  = 'ghostty-run tab ollama run llama3.2 "$1"'
+
+<span class="k">[[action]]</span>
+name  = "Search GitHub code"
+alias = "gh"
+run   = 'open "https://github.com/search?type=code&amp;q=$EUCLID_QUERY_URL"'
+
+<span class="k">[[action]]</span>
+name = "Pretty-print JSON to clipboard"
+run  = 'printf %s "$1" | jq . | pbcopy'</pre>
+    <p class="fine"><a href="plugins/#actions">Browse all actions →</a></p>
+  </section>
+
+  <section id="pricing">
+    <h2>Free while in beta. Pay once after.</h2>
+    <p class="sub">Personal use is free during the beta, and stays free for everyone who installs before launch. After that it's US$29, once, with a 30-day trial that never locks.</p>
+    <div class="two">
+      <div class="card">
+        <span class="tag">Personal</span>
+        <div class="price">Free <small>during the beta, then US$29 one-time</small></div>
+        <ul>
+          <li>For you, on all your Macs</li>
+          <li>Install during the beta and it stays free</li>
+          <li>Every feature and integration</li>
+          <li>2 years of updates included</li>
+          <li>No account, no subscription</li>
+        </ul>
+        <div class="cta" style="justify-content:flex-start">
+          <a class="btn primary" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/dev">Download free</a>
+        </div>
+      </div>
+      <div class="card pro">
+        <span class="tag">Business</span>
+        <div class="price">US$59 <small>per seat, one-time</small></div>
+        <ul>
+          <li>Required for use at work</li>
+          <li>Invoices and volume pricing</li>
+          <li>Licences move between people as your team changes</li>
+          <li>2 years of updates included</li>
+        </ul>
+        <a class="btn primary" href="#buy" data-price="business">Buy for your team</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+    <a href="terms/">Terms</a>
+    <a href="privacy/">Privacy</a>
+    <a href="refunds/">Refunds</a>
+    <a href="feedback/">Feedback</a>
+    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+    <a href="https://github.com/stellalie/euclid-bar-releases/releases">Release notes</a>
+    <span>For people who live in the terminal.</span>
+  </footer>
+
+</div>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  // Paddle Billing checkout. The client-side token is public by design.
+  const PADDLE_TOKEN = "live_b1f5a0628a20120e4504ea40e52";
+  const PRICES = {
+    personal: { priceId: "pri_01m5q75xfm3ptqwwj80e6spnb9", quantity: 1 },
+    business: { priceId: "pri_01m5q73hw0zjq6vn24z020nwmd", quantity: 1 },
+  };
+  if (PADDLE_TOKEN && window.Paddle) Paddle.Initialize({ token: PADDLE_TOKEN });
+  for (const b of document.querySelectorAll("[data-price]")) {
+    b.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!PADDLE_TOKEN || !window.Paddle) { location.href = "mailto:hello@lgtm.ninja?subject=Buying%20Euclid"; return; }
+      Paddle.Checkout.open({ items: [PRICES[b.dataset.price]] });
+    });
+  }
+</script>
+<script>
+  for (const b of document.querySelectorAll('.copy')) {
+    b.addEventListener('click', async () => {
+      const text = b.parentElement.textContent.replace(/^Copy(ed)?/, '');
+      try { await navigator.clipboard.writeText(text); b.textContent = 'Copied'; } catch { b.textContent = 'Select + ⌘C'; }
+      setTimeout(() => (b.textContent = 'Copy'), 1500);
+    });
+  }
+</script>
+<script>
+  // Prompt builder: what you want → a prompt for your agent.
+  const want = document.getElementById('want'), out = document.getElementById('promptOut');
+  const copyBtn = out.querySelector('.copy');
+  function prompt() {
+    const w = want.value.trim().replace(/\.$/, '') || 'does what I describe';
+    return `Read https://lgtm.ninja/euclid/plugins/AGENTS.md (or ~/.config/euclid/plugins/AGENTS.md).
+Then make a Euclid plugin in ~/.config/euclid/plugins/ that ${w}.
+Pick a short id for the folder. Keep secrets in the Keychain, never in plugin.toml.
+Run /Applications/Euclid.app/Contents/MacOS/euclid-bar --try-plugin <id>
+and fix it until it prints OK, then tell me what to type in Euclid to see it.`;
+  }
+  function render() { out.textContent = ''; out.append(copyBtn, prompt()); }
+  want.addEventListener('input', render); render();
+  document.getElementById('copyGuide').addEventListener('click', async (e) => {
+    try { await navigator.clipboard.writeText(await (await fetch('plugins/AGENTS.md')).text()); e.target.textContent = 'Copied the guide'; }
+    catch { location.href = 'plugins/AGENTS.md'; }
+  });
+
+  // The agent demo: a scripted illustration, typed out line by line.
+  const screen = document.getElementById('agentScreen');
+  const script = [
+    ['you', '> make a Euclid plugin that shows my 20 most recent Vercel deployments'],
+    ['dim', '  Reading lgtm.ninja/euclid/plugins/AGENTS.md'],
+    ['ok',  '  ✓ Wrote ~/.config/euclid/plugins/vercel/plugin.toml'],
+    ['code','      [source]  run = "./items.sh"  refresh_minutes = 5'],
+    ['ok',  '  ✓ Wrote items.sh  (vercel ls --json | jq → one row per deploy)'],
+    ['dim', '  $ euclid-bar --try-plugin vercel'],
+    ['err', '    items.sh: jq: error: null (null) has no keys'],
+    ['dim', '  Fixing: deployments live under .deployments'],
+    ['dim', '  $ euclid-bar --try-plugin vercel'],
+    ['ok',  '    OK · source: 20 rows in 0.41 s'],
+    ['done','  Done. Open Euclid (⌥Space) and type "deploy".'],
+    ['bar', ''],
+  ];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  async function play() {
+    screen.textContent = '';
+    for (const [kind, text] of script) {
+      const line = document.createElement('div');
+      line.className = 'l ' + kind;
+      screen.append(line);
+      if (kind === 'bar') {
+        line.innerHTML = '<div class="mini"><div class="q">deploy<span class="caret"></span></div>'
+          + '<div class="r sel"><b>web</b> · Ready · 3m ago<span>Vercel</span></div>'
+          + '<div class="r"><b>docs</b> · Building · 1m ago<span>Vercel</span></div>'
+          + '<div class="r"><b>api</b> · Error · 12m ago<span>Vercel</span></div></div>';
+        continue;
+      }
+      if (reduce || kind !== 'you') { line.textContent = text; await wait(reduce ? 0 : 420); continue; }
+      for (let i = 1; i <= text.length; i++) { line.textContent = text.slice(0, i); await wait(18); }
+      await wait(400);
+    }
+    if (!reduce) { await wait(5000); play(); }
+  }
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); play(); } }).observe(screen);
+</script>
+<!-- Cloudflare Web Analytics: cookie-free page views -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "153c6065866e4bef9595b3c0df2fc248"}'></script>
+</body>
+</html>

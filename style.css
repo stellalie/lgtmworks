@@ -83,6 +83,7 @@ footer {
   color: var(--muted); font-size: 14px;
 }
 footer .mono { font-size: 13px; }
+footer .legal a { color: inherit; }
 
 @media (max-width: 720px) {
   nav .links { display: none; }
