@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LGTM Works: little tools for dev life</title>
-<meta name="description" content="LGTM Works is a small dev shop in Sydney building fast, local, no-subscription tools for developers working alongside AI. Makers of Euclid.">
-<meta property="og:title" content="LGTM Works: little tools for dev life">
-<meta property="og:description" content="A small dev shop in Sydney building sharp tools for developers in the AI world. Makers of Euclid.">
+<title>LGTM Works</title>
+<meta name="description" content="A tiny dev shop in Sydney making small, fast tools for developers. Makers of Euclid.">
+<meta property="og:title" content="LGTM Works">
+<meta property="og:description" content="A tiny dev shop in Sydney making small, fast tools for developers. Makers of Euclid.">
 <meta property="og:url" content="https://lgtmworks.com/">
 <link rel="canonical" href="https://lgtmworks.com/">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preload" href="caveat.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,99 +18,36 @@
 
   <nav>
     <img src="logo.svg" alt="">
-    <span class="wordmark">lgtm works</span>
+    <a class="wordmark" href="/">lgtm works</a>
     <div class="links">
-      <a href="#products">Products</a>
-      <a href="#how">How we build</a>
-      <a href="#contact">Contact</a>
+      <a href="https://euclid.lgtmworks.com/">Euclid</a>
+      <a href="mailto:hello@lgtmworks.com">Say hi</a>
     </div>
   </nav>
 
-  <header class="hero">
-    <p class="prompt"><b>~/sydney</b> $ git commit -m "make dev life better"<span class="cursor"></span></p>
-    <h1>Little tools for dev life <br>in the <em>AI world</em>.</h1>
-    <p class="lead">LGTM Works is a small dev shop in Sydney, Australia. We build sharp, fast tools
-      for developers who ship alongside AI agents, and we want every one of them to pass review on the first look.</p>
-    <div class="cta">
-      <a class="btn primary" href="https://euclid.lgtmworks.com/">Meet Euclid</a>
-      <a class="btn" href="mailto:hello@lgtmworks.com">Say hello</a>
-    </div>
-  </header>
+  <main class="intro">
+    <h1>We make <span class="scribble">little tools<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8c30-4 62-6.5 98-5.5 30 .8 58 2.6 97 .5"/></svg></span> for developers.</h1>
+    <p>LGTM Works is a tiny dev shop in Sydney. We build the tools we want on our own Macs:
+      quick to open, set up in a text file, and gone when you're done with them.</p>
+    <p>You pay once, with <b>no subscriptions</b>. Bring your own AI. And everything ships when it looks good to us, hence the name.</p>
 
-  <section id="products">
-    <p class="label">// products</p>
-    <h2>What we've shipped</h2>
+    <div class="note hand">
+      <svg viewBox="0 0 46 52" aria-hidden="true"><path d="M8 4c-3 14 1 28 14 37 4 2.6 8 4 13 4.6"/><path d="M27 39.5c3 2.4 6 4.3 9 6-3.4 1.6-6.6 3.4-9.6 5.6"/></svg>
+      the first one
+    </div>
     <a class="product" href="https://euclid.lgtmworks.com/">
-      <img src="euclid.png" alt="Euclid app icon">
+      <img src="euclid.png" alt="">
       <div>
         <h3>Euclid</h3>
-        <p class="tagline">The shortest path from thought to command.</p>
-        <p>A native macOS launcher for developers. Every action is a shell command in a TOML file,
-          10,000 items searched in under a millisecond, and your agent one keystroke away. Free during the beta.</p>
+        <p>The shortest path from thought to command. A launcher for macOS where every action is a shell command.</p>
       </div>
-      <span class="go">euclid.lgtmworks.com →</span>
+      <span class="go">→</span>
     </a>
-    <div class="next">$ ls ~/workshop &nbsp;# more little tools on the way</div>
-  </section>
-
-  <section id="how">
-    <p class="label">// how we build</p>
-    <h2>Four rules every tool has to pass</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="num">01 · fast</div>
-        <h3>Faster than your thoughts</h3>
-        <p>Native code, measured in milliseconds. If a tool makes you wait, it isn't done.</p>
-      </div>
-      <div class="card">
-        <div class="num">02 · local</div>
-        <h3>Your data stays yours</h3>
-        <p>No accounts, no tracking. Your work stays on your machine.</p>
-      </div>
-      <div class="card">
-        <div class="num">03 · config as code</div>
-        <h3>Lives in your dotfiles</h3>
-        <p>Plain text config, simple to extend, easy to share with your team.</p>
-      </div>
-      <div class="card">
-        <div class="num">04 · fair</div>
-        <h3>Pay once. No subscriptions.</h3>
-        <p>Bring your own AI: your keys, or a local model. We never resell it to you.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="about">
-    <p class="label">// about</p>
-    <div class="two">
-      <div>
-        <h2>For dev, by dev</h2>
-        <p>The name says it: <strong>LGTM</strong>, "looks good to me", the two best words in code review.
-          That's the bar for everything we make.</p>
-        <p>Developer tools got heavier while AI made the work faster. We think the tools around
-          your agents should be small, quick and out of your way. So we make little ones, one at a time, from Sydney.</p>
-      </div>
-      <pre><span class="c">$ git log --oneline lgtm-works</span>
-<span class="h">a1f3e9c</span> Ship the Euclid beta
-<span class="h">7d02b4e</span> Hit 0.6 ms for 12k items
-<span class="h">3c9a51f</span> Say no to subscriptions
-<span class="h">e4b7d20</span> Register lgtmworks.com
-<span class="h">0000001</span> Initial commit, Sydney</pre>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="contact">
-      <p class="label">// contact</p>
-      <h2>Got an idea, a bug or a hello?</h2>
-      <p>We read everything. Tell us what slows your dev day down, and we might build the fix.</p>
-      <a class="btn primary" href="mailto:hello@lgtmworks.com">hello@lgtmworks.com</a>
-    </div>
-  </section>
+    <p class="soon hand">more soon, probably.</p>
+  </main>
 
   <footer>
     <span>© 2026 LGTM Works · Made in Sydney</span>
-    <a href="https://euclid.lgtmworks.com/">Euclid</a>
     <a href="mailto:hello@lgtmworks.com">hello@lgtmworks.com</a>
   </footer>
 
