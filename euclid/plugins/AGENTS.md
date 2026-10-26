@@ -30,6 +30,7 @@ run    = "./tz.sh"                 # gets the text as $1 (and $EUCLID_QUERY)
 prefix = "tz"                      # `tz 3pm` runs it with "3pm"
 match  = '^\d+(am|pm)$'            # and/or: runs on the whole query when it matches
                                    # one of the two is required; 2 s limit
+on_enter = true                    # optional: show “Ask”, run on ↵ with up to 60 s (an AI model)
 
 [badge]                            # a short status chip on the search bar
 run   = "./today.sh"               # first line of output, up to 40 characters; empty = hidden
@@ -114,6 +115,7 @@ prints is ignored):
 {"notice":"Cleaned a tracking link"}   shown in the panel's footer
 {"copy":"https://example.com/x"}       put on the clipboard (a clipboard hook doesn't see its own copy)
 {"paste":"Fixed text"}                 keys only: paste into the app you were in
+{"show":"A long answer…"}              keys only: open the panel with this text to read
 {"open":"https://example.com"}         open a URL or file
 {"query":"jira "}                      open hooks only: start the search with this text
 ```
@@ -150,5 +152,6 @@ change them:
 - `shortcuts`: run your Shortcuts, through the `shortcuts` CLI (a source and an action).
 - `cleanlinks`: strips tracking parameters from links you copy (a `clipboard` hook).
 - `reveal`: ⇧⌘R shows the selected file, project or app in Finder (a `[[key]]`).
-- `ai`: ⇧⌘F fixes a clip's writing and pastes it back, ⇧⌘T translates, ⇧⌘E explains, `ai <question>`
-  answers, through the `claude`, `codex` or `gemini` CLI you're logged into (`[[key]]`s and an action).
+- `ai`: `ai <question>` answers in the bar; on a clip ⇧⌘F fixes the writing and pastes it back,
+  ⇧⌘T translates, ⇧⌘E explains. Apple's on-device model by default, or the `claude`, `codex` or
+  `gemini` CLI you're logged into (an `on_enter` answer and `[[key]]`s).
