@@ -113,11 +113,13 @@ prints is ignored):
 ```json
 {"notice":"Cleaned a tracking link"}   shown in the panel's footer
 {"copy":"https://example.com/x"}       put on the clipboard (a clipboard hook doesn't see its own copy)
+{"paste":"Fixed text"}                 keys only: paste into the app you were in
 {"open":"https://example.com"}         open a URL or file
 {"query":"jira "}                      open hooks only: start the search with this text
 ```
 
-Hooks run in the background with a 10 s limit and never slow the panel down. Try one with
+Hooks run in the background with a 10 s limit and never slow the panel down; keys get 60 s
+(enough for an AI CLI). Try one with
 sample text: `euclid-bar --try-plugin <id> "https://example.com/?utm_source=x"`. Keys aren't run
 by `--try-plugin`; it checks them and lists them.
 
@@ -148,3 +150,5 @@ change them:
 - `shortcuts`: run your Shortcuts, through the `shortcuts` CLI (a source and an action).
 - `cleanlinks`: strips tracking parameters from links you copy (a `clipboard` hook).
 - `reveal`: ⇧⌘R shows the selected file, project or app in Finder (a `[[key]]`).
+- `ai`: ⇧⌘F fixes a clip's writing and pastes it back, ⇧⌘T translates, ⇧⌘E explains, `ai <question>`
+  answers, through the `claude`, `codex` or `gemini` CLI you're logged into (`[[key]]`s and an action).
