@@ -150,12 +150,11 @@
     <div class="two">
       <ul class="plain">
         <li><b>Update checks</b> ask GitHub for the latest version. Turn them off with <code>[updates] check = false</code>.</li>
-        <li><b>Bitbucket and Jira</b>, only if you set them up, talk straight to your own server, with a token your own command fetches (Keychain, 1Password CLI).</li>
-        <li><b>Page indexing</b>, off by default, fetches pages you already visited so you can search their text.</li>
+        <li><b>The Bitbucket and Jira plugins</b>, only if you add them, talk straight to your own server, with a token your own command fetches (Keychain, 1Password CLI).</li>
         <li><b>Your actions</b> do whatever their shell line says, nothing more.</li>
       </ul>
       <ul class="plain">
-        <li><b>Never sent anywhere:</b> what you type, your clipboard, your history, your files, your usage counts.</li>
+        <li><b>Never sent anywhere:</b> what you type, your clipboard, your history, your files.</li>
         <li><b>Password managers:</b> copies from 1Password and friends are never recorded.</li>
         <li><b>This website</b> counts page views with cookie-free Cloudflare Web Analytics. The app has no analytics at all.</li>
       </ul>
@@ -173,8 +172,6 @@
           <li><b>Clipboard history</b>: text, images and copied files</li>
           <li><b>Browser history</b> from Arc, Dia, Chrome, Safari and more</li>
           <li><b>Obsidian notes</b> by title and text</li>
-          <li><b>Page text</b> of sites you visited <em>opt-in</em></li>
-          <li><b>Bitbucket and Jira</b>: your PRs, reviews and issues</li>
         </ul>
       </div>
       <div class="fgroup">
@@ -269,8 +266,8 @@ name = "Ask Claude in a new Ghostty tab"
 run  = 'ghostty-run tab claude "$1"'
 
 <span class="k">[[action]]</span>                                   <span class="c"># ⌘2</span>
-name = "Codex in a herdr split"
-run  = 'herdr-run split codex "$1"'
+name = "Codex in a Ghostty split"
+run  = 'ghostty-run split codex "$1"'
 
 <span class="k">[[action]]</span>                                   <span class="c"># a local model, no API key</span>
 name = "Ask Llama on this Mac"

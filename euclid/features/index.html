@@ -41,10 +41,7 @@
         <tr><th>Files</th><td>Spotlight, by name, across your home folder, after 3+ letters</td></tr>
         <tr><th>Clipboard history</th><td>Text, images and copied files, with the app and time they came from</td></tr>
         <tr><th>Browser history</th><td>Dia, Arc, Chrome, Brave, Edge, Vivaldi, Chromium and Safari, read locally</td></tr>
-        <tr><th>Page text <em>opt-in</em></th><td>Full-text search of public pages you visited, fetched without cookies and indexed on your Mac</td></tr>
         <tr><th>Obsidian</th><td>Notes by title and text. <kbd>↵</kbd> opens them in Obsidian</td></tr>
-        <tr><th>Bitbucket</th><td>Your open PRs, PRs waiting on your review, and your repos. Cloud and Data Center</td></tr>
-        <tr><th>Jira</th><td>Issues assigned to you and ones you viewed lately. Type <code>ABC-123</code> to open any issue</td></tr>
         <tr><th>Snippets</th><td>Text you paste often, with <code>{date}</code> <code>{time}</code> <code>{datetime}</code> <code>{clipboard}</code> <code>{uuid}</code> placeholders</td></tr>
         <tr><th>Favourites and aliases</th><td>Pin things to the empty box; give anything a short name like <code>code</code></td></tr>
         <tr><th>Learns what you pick</th><td>The result you choose for what you type ranks first next time</td></tr>
@@ -73,6 +70,8 @@
     <video class="clip" src="../clips/plugins.mp4" poster="../clips/plugins.jpg" muted loop playsinline preload="none" aria-label="plugins in the Euclid panel"></video>
     <table>
         <tr><th>github <em class="tag-plugin">plugin</em></th><td>Your PRs, review requests and issues, through the <code>gh</code> CLI</td></tr>
+        <tr><th>bitbucket <em class="tag-plugin">plugin</em></th><td>Your open PRs, PRs waiting on your review, and your repos. Cloud and Data Center</td></tr>
+        <tr><th>jira <em class="tag-plugin">plugin</em></th><td>Issues assigned to you and ones you viewed lately. Type <code>ABC-123</code> to open any issue; ⇧⌘C copies a branch name</td></tr>
         <tr><th>linear <em class="tag-plugin">plugin</em></th><td>Linear issues assigned to you</td></tr>
         <tr><th>slack <em class="tag-plugin">plugin</em></th><td>Jump to channels; <code>slack &lt;words&gt;</code> searches messages</td></tr>
         <tr><th>contacts <em class="tag-plugin">plugin</em></th><td>People by name, company, email or phone</td></tr>
@@ -98,7 +97,7 @@
         <tr><th>Action palette</th><td><kbd>⌘K</kbd>: arrow keys, numbers or type to filter</td></tr>
         <tr><th>Aliases</th><td><code>gh swift testing</code> runs the GitHub action on "swift testing"</td></tr>
         <tr><th>No match? Ask an agent</th><td>When nothing matches, your actions show up, so a question is one <kbd>↵</kbd> from Claude, Codex, pi or a local model</td></tr>
-        <tr><th>Ghostty and herdr</th><td><code>ghostty-run</code> and <code>herdr-run</code> open a tab, split or window. Readable scripts in <code>~/.config/euclid/bin</code></td></tr>
+        <tr><th>Ghostty</th><td><code>ghostty-run</code> opens a tab, split or window. A readable script in <code>~/.config/euclid/bin</code></td></tr>
         <tr><th>Preview pane</th><td><kbd>→</kbd> or <kbd>⌘Y</kbd>: the full clip, images, Quick Look, a project's README, a page's text</td></tr>
         <tr><th>Copy anything</th><td><kbd>⌘C</kbd> copies the clip, a page's URL, or a path. <kbd>⌘⌫</kbd> deletes a clip</td></tr>
     </table>
@@ -110,6 +109,7 @@
     <video class="clip" src="../clips/expansion.mp4" poster="../clips/expansion.jpg" muted loop playsinline preload="none" aria-label="without opening the panel in the Euclid panel"></video>
     <table>
         <tr><th>Text expansion <em>opt-in</em></th><td>Type a snippet's keyword in any app and it turns into the snippet. Needs Accessibility</td></tr>
+        <tr><th>Permissions in one place</th><td>Type <code>permissions</code> to see what's allowed and what's missing; ↵ opens the right System Settings pane</td></tr>
         <tr><th>Per-command hotkeys</th><td>Give any app, project, action or snippet its own hotkey in <code>[hotkeys]</code>. Its row shows it</td></tr>
         <tr><th>Global hotkey</th><td><kbd>⌥Space</kbd> by default, any combination you like</td></tr>
     </table>
@@ -121,7 +121,7 @@
     <table>
         <tr><th>Bring your own agent</th><td>Claude Code, Codex, pi, or anything with a CLI, as an action</td></tr>
         <tr><th>Local models</th><td>Ollama or any local runner, no API key</td></tr>
-        <tr><th>MCP server</th><td><code>euclid-bar --mcp</code> lets your agents search your clipboard, pages, notes and history. Read-only</td></tr>
+        <tr><th>MCP server</th><td><code>euclid-bar --mcp</code> lets your agents search your clipboard, notes and browser history. Read-only</td></tr>
         <tr><th>Choose what's shared</th><td><code>[agents] share</code> picks what agents can see; <code>[]</code> shares nothing</td></tr>
     </table>
   </section>
@@ -160,7 +160,6 @@
     <table>
         <tr><th>Local only</th><td>Clipboard, history, index and ranking live in <code>~/Library/Application Support/Euclid</code></td></tr>
         <tr><th>Password managers ignored</th><td>1Password and friends are never recorded; add more with <code>ignore_apps</code></td></tr>
-        <tr><th>Usage stays yours</th><td>Type <code>usage</code> for your last 30 days. Only counts are kept, never what you typed</td></tr>
         <tr><th>No account, no telemetry</th><td>The app has no analytics. The licence is checked offline</td></tr>
     </table>
   </section>

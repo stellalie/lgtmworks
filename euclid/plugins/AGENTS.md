@@ -3,8 +3,9 @@
 > This is the plugin guide Euclid installs at `~/.config/euclid/plugins/AGENTS.md`, published for coding agents.
 > Source: https://lgtm.ninja/euclid/plugins/AGENTS.md
 
-A plugin is a folder here with a `plugin.toml` and the scripts it runs. Euclid reloads it when
-you save, so write it, try it, and it's live. This file is the whole format.
+A plugin is a folder here with a `plugin.toml` and the scripts it runs. It can add things
+to the bar (search items, answers, badges, actions) or change how Euclid behaves (hooks and
+keys: a "mod"). Euclid reloads it when you save, so write it, try it, and it's live. This file is the whole format.
 
 ## Make one (people and coding agents)
 
@@ -77,12 +78,48 @@ One JSON object per line (or a single JSON array). Only `title` is required.
 - Working directory: the plugin folder. `$EUCLID_PLUGIN_DIR` is its path.
 - `$1` and `$EUCLID_QUERY`: the text (answers and actions); `$EUCLID_QUERY_URL`: URL-encoded.
 - `$EUCLID_SETTING_<KEY>` for each setting, uppercased.
-- `~/.config/euclid/bin` first on PATH: `ghostty-run tab|split|window <cmd>` and
-  `herdr-run tab|split <cmd>` open a terminal running a command.
+- `~/.config/euclid/bin` first on PATH: `ghostty-run tab|split|window <cmd>` opens a
+  terminal running a command.
 - `[env]` from config.toml. Scripts run in a login shell, so Homebrew tools are on PATH.
 
 The text you type is only ever passed as `$1` and environment variables, never pasted into a
 command, so quote it: `"$1"`.
+
+## Mods: hooks and keys
+
+A plugin can also change how Euclid behaves. Same folder, same scripts.
+
+```toml
+[[on]]                             # run when something happens
+event = "clipboard"                # clipboard: you copied text ($1 = the text)
+run   = "./clean.sh"               # open: the panel opened ($1 = the app you were in)
+                                   # choose: you picked a result with ↵ ($1 = its URL, path or text)
+                                   # app: you switched apps ($1 = the app's name)
+
+[[key]]                            # a shortcut in the panel, on the selected result
+key  = "cmd+g"                     # needs a modifier; Euclid's own keys (⌘K, ⌘C, ⌘1…) are taken
+name = "Open in GitHub Desktop"    # shown in the footer when it applies
+when = ["github", "project"]       # optional: kinds it applies to, or a plugin's id
+run  = 'open -a "GitHub Desktop" "$1"'   # $1 = the result's URL, path or text
+```
+
+Kinds: `app` `project` `file` `clip` `snippet` `note` `history` `action` `answer`
+`command` `plugin` (a plugin's own items also match their plugin's id). Keys and `choose` hooks
+also get `$EUCLID_ITEM_KIND`, `_TITLE`, `_SUBTITLE`, `_URL`, `_PATH`, `_TEXT` and `_PLUGIN`.
+
+A hook or key script can ask Euclid to do something by printing JSON lines (anything else it
+prints is ignored):
+
+```json
+{"notice":"Cleaned a tracking link"}   shown in the panel's footer
+{"copy":"https://example.com/x"}       put on the clipboard (a clipboard hook doesn't see its own copy)
+{"open":"https://example.com"}         open a URL or file
+{"query":"jira "}                      open hooks only: start the search with this text
+```
+
+Hooks run in the background with a 10 s limit and never slow the panel down. Try one with
+sample text: `euclid-bar --try-plugin <id> "https://example.com/?utm_source=x"`. Keys aren't run
+by `--try-plugin`; it checks them and lists them.
 
 ## Rules of thumb
 
@@ -100,9 +137,14 @@ change them:
 
 - `github`: your PRs, review requests and issues, through the `gh` CLI (a source).
 - `linear`: Linear issues assigned to you, through the GraphQL API (a source, key in the Keychain).
+- `bitbucket`: your PRs, review requests and repos, Cloud or Data Center (a source, token in the Keychain).
+- `jira`: your issues and ones you viewed; `ABC-123` opens any issue; ⇧⌘C copies a branch name
+  (a source, an answer with a `match`, and a `[[key]]`).
 - `slack`: jump to channels, and `slack <words>` searches messages (a source and an answer).
 - `tokens`: today's Claude Code tokens and cost on the bar, through `ccusage` (a badge).
 - `define`: `define <word>` from the macOS Dictionary, in JavaScript for Automation (an answer).
 - `currency`: `100 usd to eur` with daily rates, cached (an answer with a `match`).
 - `contacts`: people in Contacts, through JavaScript for Automation (a source).
 - `shortcuts`: run your Shortcuts, through the `shortcuts` CLI (a source and an action).
+- `cleanlinks`: strips tracking parameters from links you copy (a `clipboard` hook).
+- `reveal`: ⇧⌘R shows the selected file, project or app in Finder (a `[[key]]`).

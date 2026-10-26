@@ -455,7 +455,7 @@ jq -c --arg to &quot;$to&quot; --arg from &quot;$from&quot; --arg n &quot;$amoun
       <li><b>Any language.</b> Scripts run in your login shell inside the plugin folder, so Homebrew tools are on your PATH.</li>
       <li><b>Safe with your input.</b> What you type only reaches a script as <code>$1</code> and <code>$EUCLID_QUERY</code>. It's never pasted into a command.</li>
       <li><b>Never slows typing.</b> Plugin results land below the instant ones, and a slow script is stopped at its time limit.</li>
-      <li><b>Secrets stay out of files.</b> Read tokens from the Keychain in the script (<code>security find-generic-password</code>), the same way Bitbucket and Jira already work.</li>
+      <li><b>Secrets stay out of files.</b> Read tokens from the Keychain in the script (<code>security find-generic-password</code>), the same way the bitbucket and jira plugins do.</li>
     </ul>
   </section>
 
@@ -520,11 +520,11 @@ name = "Ask Claude in a new Ghostty tab"
 run  = 'ghostty-run tab claude "$1"'</pre>
       </article>
       <article class="recipe" data-cat="AI agents">
-        <header><h3>Codex in a herdr split</h3><span class="cat">AI agents</span></header>
+        <header><h3>Codex in a Ghostty split</h3><span class="cat">AI agents</span></header>
         <p>Keep your current pane; Codex answers next to it.</p>
         <pre><button class="copy" type="button">Copy</button><span class="k">[[action]]</span>
-name = "Codex in a herdr split"
-run  = 'herdr-run split codex "$1"'</pre>
+name = "Codex in a Ghostty split"
+run  = 'ghostty-run split codex "$1"'</pre>
       </article>
       <article class="recipe" data-cat="AI agents">
         <header><h3>Ask pi in a new Ghostty window</h3><span class="cat">AI agents</span></header>
