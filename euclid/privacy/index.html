@@ -24,8 +24,8 @@
 
   <article class="legal">
     <h2>Privacy policy</h2>
-    <p class="sub">Last updated 26 October 2026</p>
-    <p>Short version: Euclid keeps your data on your Mac. We don't run analytics, ads or tracking in the app or on this site. Crash reports are sent only if you turn them on.</p>
+    <p class="sub">Last updated 31 October 2026</p>
+    <p>Short version: Euclid keeps your data on your Mac. No ads or tracking, in the app or on this site. On first launch Euclid asks once whether to send crash reports and an anonymous daily usage ping; nothing is sent unless you say yes.</p>
     <h3>What stays on your Mac</h3>
     <ul>
       <li>Clipboard history, browser history, indexed pages, notes and learned rankings are stored in <code>~/Library/Application Support/Euclid</code> and never sent to us.</li>
@@ -37,7 +37,8 @@
       <li><b>Integrations you turn on</b> (for example Bitbucket) talk directly from your Mac to that service, using your own token stored in your Keychain.</li>
       <li><b>Page indexing</b> (off by default) fetches pages you already visited, directly from your Mac.</li>
       <li><b>Licences:</b> keys are checked on your Mac. Nothing is sent.</li>
-      <li><b>Crash reports</b> (off by default; <code>[privacy] crash_reports = true</code> or the menu): after a crash, or an internal error that breaks a feature, the app sends the app and macOS version, the crashed code's stack and the error message. Never what you type, your clipboard, files, config or anything that identifies you; home folder paths and emails are removed. Each report is saved in <code>~/Library/Logs/Euclid/Reports</code> first, so you can read what was sent. They go to our private bug tracker on GitHub through Cloudflare, and are kept until the bug is fixed.</li>
+      <li><b>Crash reports</b> (only if you say yes on first launch; <code>[privacy] crash_reports</code> or the menu): after a crash, or an internal error that breaks a feature, the app sends the app and macOS version, the crashed code's stack and the error message. Never what you type, your clipboard, files, config or anything that identifies you; home folder paths and emails are removed. Each report is saved in <code>~/Library/Logs/Euclid/Reports</code> first, so you can read what was sent. They go to our private bug tracker on GitHub through Cloudflare, and are kept until the bug is fixed.</li>
+      <li><b>Usage ping</b> (only if you say yes on first launch; <code>[privacy] usage_ping</code> or the menu): once a day the app sends a random install ID, the app and macOS version, update channel and CPU type, so we can count how many people use Euclid. The ID is made when you turn it on and deleted when you turn it off; it isn't linked to your licence, account or Mac. We don't store IP addresses; daily records are deleted after 90 days. The last ping is saved in <code>~/Library/Logs/Euclid/Reports/usage-ping.json</code>.</li>
     </ul>
     <h3>Purchases</h3>
     <p>Paddle.com handles checkout as Merchant of Record and processes your name, email, address and payment details under the <a href="https://www.paddle.com/legal/privacy">Paddle privacy policy</a>. We receive your name, email, country and order details to support your licence.</p>

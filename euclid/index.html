@@ -85,7 +85,7 @@
       <div class="card">
         <div class="num">03 · offline by design</div>
         <h3>Nothing leaves your Mac</h3>
-        <p>Your clipboard, history and index stay on disk. No account, no telemetry, and the licence
+        <p>Your clipboard, history and index stay on disk. No account, nothing sent without asking, and the licence
           is checked offline. <a href="#offline">Every network call, listed.</a></p>
       </div>
       <div class="card">
@@ -152,12 +152,12 @@
         <li><b>Update checks</b> ask GitHub for the latest version. Turn them off with <code>[updates] check = false</code>.</li>
         <li><b>The Bitbucket and Jira plugins</b>, only if you add them, talk straight to your own server, with a token your own command fetches (Keychain, 1Password CLI).</li>
         <li><b>Your actions</b> do whatever their shell line says, nothing more.</li>
-        <li><b>Crash reports</b>, only if you turn them on: the crashed code's stack and versions, never your data.</li>
+        <li><b>Crash reports and a usage ping</b>, only if you say yes (Euclid asks once): the crashed code's stack, a random install ID and versions, never your data.</li>
       </ul>
       <ul class="plain">
         <li><b>Never sent anywhere:</b> what you type, your clipboard, your history, your files.</li>
         <li><b>Password managers:</b> copies from 1Password and friends are never recorded.</li>
-        <li><b>This website</b> counts page views with cookie-free Cloudflare Web Analytics. The app has no analytics at all.</li>
+        <li><b>This website</b> counts page views with cookie-free Cloudflare Web Analytics. The app sends nothing else.</li>
       </ul>
     </div>
   </section>
@@ -298,7 +298,7 @@
     <table>
         <tr><th>Local only</th><td>Clipboard, history, index and ranking live in <code>~/Library/Application Support/Euclid</code></td></tr>
         <tr><th>Password managers ignored</th><td>1Password and friends are never recorded; add more with <code>ignore_apps</code></td></tr>
-        <tr><th>No account, no telemetry</th><td>The app has no analytics; crash reports only if you turn them on. The licence is checked offline</td></tr>
+        <tr><th>No account, nothing without asking</th><td>Crash reports and an anonymous usage ping only if you say yes. The licence is checked offline</td></tr>
     </table>
   </details>
 
