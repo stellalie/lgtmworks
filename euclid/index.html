@@ -22,8 +22,7 @@
     <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
     <div class="links">
       <a href="#why">Why</a>
-      <a href="#features">Features</a>
-      <a href="#offline">Privacy</a>
+      <a href="docs/">Docs</a>
       <a href="plugins/">Plugins</a>
       <a href="#pricing">Pricing</a>
     </div>
@@ -86,25 +85,26 @@
         <div class="num">03 · offline by design</div>
         <h3>Nothing leaves your Mac</h3>
         <p>Your clipboard, history and index stay on disk. No account, nothing sent without asking, and the licence
-          is checked offline. <a href="#offline">Every network call, listed.</a></p>
+          is checked offline. It goes online only for update checks and plugins you add.
+          <a href="docs/#network">Every network call, listed.</a></p>
       </div>
       <div class="card">
         <div class="num">04 · transparent config</div>
         <h3>One TOML file, nothing hidden</h3>
-        <p>Every action is one shell line you can read in <code>~/.config/euclid/config.toml</code>.
-          It reloads on save and <code>--check-config</code> lints it in CI.</p>
+        <p>Every action is one shell line in <code>~/.config/euclid/config.toml</code>, and every
+          feature is one line you can switch off. Keep the folder in git; it reloads on save.</p>
       </div>
       <div class="card">
         <div class="num">05 · extensible</div>
         <h3>If it runs in a terminal, it's an action</h3>
-        <p>Scripts in <code>~/.config/euclid/bin</code> are on every action's PATH. Share a team config,
-          import Raycast and Alfred snippets, and let agents search Euclid over MCP.</p>
+        <p>A plugin is a script that prints JSON, in any language. No SDK, no build step, no store
+          review. Share a team config and let agents search Euclid over MCP.</p>
       </div>
       <div class="card">
-        <div class="num">06 · everything optional</div>
-        <h3>Switch off what you don't use</h3>
-        <p>Clipboard, browser history, files, notes, integrations, update checks: each is one line
-          in the config. Page indexing stays off until you turn it on.</p>
+        <div class="num">06 · no subscription</div>
+        <h3>Pay once. Free during the beta.</h3>
+        <p>No monthly plan for AI, sync or themes, and no cloud account. Your settings are a folder,
+          not someone's server.</p>
       </div>
     </div>
   </section>
@@ -130,188 +130,6 @@
       </ul>
     </div>
   </section>
-
-  <section id="different">
-    <h2>What you don't sign up for</h2>
-    <p class="sub">Launchers tend to grow accounts, AI plans and extension stores. Euclid keeps the box small and hands you the keys.</p>
-    <div class="compare">
-      <div class="row head"><span></span><span>Euclid</span><span>The usual launcher</span></div>
-      <div class="row"><span>Price</span><span><b>Pay once.</b> Free during the beta.</span><span>Monthly plan for AI, sync and themes</span></div>
-      <div class="row"><span>AI</span><span><b>Any agent or model you run</b>, local ones too</span><span>The vendor's AI, on the vendor's plan</span></div>
-      <div class="row"><span>Extending it</span><span><b>A script that prints JSON</b>, in any language</span><span>An SDK, a build step and a store review</span></div>
-      <div class="row"><span>Settings</span><span><b>One folder you keep in git</b>: config, scripts, plugins</span><span>A settings window and a cloud account</span></div>
-      <div class="row"><span>Your data</span><span><b>Stays on your Mac</b></span><span>Synced to someone's server</span></div>
-    </div>
-  </section>
-
-  <section id="offline">
-    <h2>Where your data goes</h2>
-    <p class="sub">Euclid works with the network unplugged. These are the only times it goes online.</p>
-    <div class="two">
-      <ul class="plain">
-        <li><b>Update checks</b> ask GitHub for the latest version. Turn them off with <code>[updates] check = false</code>.</li>
-        <li><b>The Bitbucket and Jira plugins</b>, only if you add them, talk straight to your own server, with a token your own command fetches (Keychain, 1Password CLI).</li>
-        <li><b>Your actions</b> do whatever their shell line says, nothing more.</li>
-        <li><b>Crash reports and a usage ping</b>, only if you say yes (Euclid asks once): the crashed code's stack, a random install ID and versions, never your data.</li>
-      </ul>
-      <ul class="plain">
-        <li><b>Never sent anywhere:</b> what you type, your clipboard, your history, your files.</li>
-        <li><b>Password managers:</b> copies from 1Password and friends are never recorded.</li>
-        <li><b>This website</b> counts page views with cookie-free Cloudflare Web Analytics. The app sends nothing else.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="features">
-    <h2>Every feature</h2>
-    <p class="sub">The complete list. Each one is a line in <code>config.toml</code> you can switch off.
-      <em class="tag-plugin">plugin</em> means you add it with one command; <em>opt-in</em> means it's off until you turn it on.</p>
-  </section>
-
-  <details class="flist" id="f-search">
-    <summary><b>Search</b><span>Apps, git projects, files, clipboard, browser history, Obsidian, snippets</span></summary>
-    <p class="sub">One box, fuzzy-matched, grouped into sections. Matched letters are highlighted and the list never reshuffles under your cursor.</p>
-    <video class="clip" src="clips/search-sections.mp4" poster="clips/search-sections.jpg" muted loop playsinline preload="none" aria-label="search in the Euclid panel"></video>
-    <table>
-        <tr><th>Apps</th><td>/Applications, /System/Applications, ~/Applications and any folders you add</td></tr>
-        <tr><th>Git projects</th><td>Repos under your code folders. <kbd>↵</kbd> opens them in your editor</td></tr>
-        <tr><th>Project tasks</th><td><kbd>⌘K</kbd> on a project runs its <code>make</code>, <code>npm</code>, <code>just</code>, <code>swift</code>, <code>cargo</code> or <code>go</code> tasks in a new terminal tab</td></tr>
-        <tr><th>Files</th><td>Spotlight, by name, across your home folder, after 3+ letters</td></tr>
-        <tr><th>Clipboard history</th><td>Text, images and copied files, with the app and time they came from</td></tr>
-        <tr><th>Browser history</th><td>Dia, Arc, Chrome, Brave, Edge, Vivaldi, Chromium and Safari, read locally</td></tr>
-        <tr><th>Obsidian</th><td>Notes by title and text. <kbd>↵</kbd> opens them in Obsidian</td></tr>
-        <tr><th>Snippets</th><td>Text you paste often, with <code>{date}</code> <code>{time}</code> <code>{datetime}</code> <code>{clipboard}</code> <code>{uuid}</code> placeholders</td></tr>
-        <tr><th>Favourites and aliases</th><td>Pin things to the empty box; give anything a short name like <code>code</code></td></tr>
-        <tr><th>Learns what you pick</th><td>The result you choose for what you type ranks first next time</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-answers-as-you-type">
-    <summary><b>Answers as you type</b><span>Maths and units, epoch, JSON, JWT, base64, URLs, colours, UUIDs</span></summary>
-    <p class="sub"><kbd>↵</kbd> copies the answer.</p>
-    <video class="clip" src="clips/epoch.mp4" poster="clips/epoch.jpg" muted loop playsinline preload="none" aria-label="answers as you type in the Euclid panel"></video>
-    <table>
-        <tr><th>Calculator and units</th><td><code>12 * 3.5</code> · <code>1.5 gb in mb</code> · <code>72 f in c</code></td></tr>
-        <tr><th>Epoch ⇄ date</th><td><code>1697040000</code> · <code>2023-10-11T16:00:00Z</code> · <code>now</code></td></tr>
-        <tr><th>JSON</th><td>Paste <code>{"a":1}</code>, get it pretty or minified</td></tr>
-        <tr><th>JWT</th><td>Decoded header and payload</td></tr>
-        <tr><th>Base64</th><td><code>b64 hello</code> to encode, paste to decode</td></tr>
-        <tr><th>URL encoding</th><td><code>a%20b</code> · <code>urlencode a b</code></td></tr>
-        <tr><th>Colours</th><td><code>#ff8800</code> ⇄ <code>rgb(255, 136, 0)</code>, with a swatch</td></tr>
-        <tr><th>UUID</th><td>Type <code>uuid</code> for a fresh one</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-plugins">
-    <summary><b>Plugins</b><span>GitHub, Bitbucket, Jira, Linear, Slack and more, or write your own</span></summary>
-    <p class="sub">Add only what you use: <code>euclid-bar --plugin add &lt;name&gt;</code>. They cost nothing until you add one.</p>
-    <video class="clip" src="clips/plugins.mp4" poster="clips/plugins.jpg" muted loop playsinline preload="none" aria-label="plugins in the Euclid panel"></video>
-    <table>
-        <tr><th>github <em class="tag-plugin">plugin</em></th><td>Your PRs, review requests and issues, through the <code>gh</code> CLI</td></tr>
-        <tr><th>bitbucket <em class="tag-plugin">plugin</em></th><td>Your open PRs, PRs waiting on your review, and your repos. Cloud and Data Center</td></tr>
-        <tr><th>jira <em class="tag-plugin">plugin</em></th><td>Issues assigned to you and ones you viewed lately. Type <code>ABC-123</code> to open any issue; ⇧⌘C copies a branch name</td></tr>
-        <tr><th>linear <em class="tag-plugin">plugin</em></th><td>Linear issues assigned to you</td></tr>
-        <tr><th>slack <em class="tag-plugin">plugin</em></th><td>Jump to channels; <code>slack &lt;words&gt;</code> searches messages</td></tr>
-        <tr><th>contacts <em class="tag-plugin">plugin</em></th><td>People by name, company, email or phone</td></tr>
-        <tr><th>shortcuts <em class="tag-plugin">plugin</em></th><td>Run your Apple Shortcuts by name</td></tr>
-        <tr><th>define <em class="tag-plugin">plugin</em></th><td><code>define serendipity</code> from the macOS Dictionary</td></tr>
-        <tr><th>currency <em class="tag-plugin">plugin</em></th><td><code>100 usd to eur</code> with daily rates, no API key</td></tr>
-        <tr><th>tokens <em class="tag-plugin">plugin</em></th><td>Today's Claude Code tokens and cost on the bar, from <code>ccusage</code></td></tr>
-        <tr><th>cleanlinks <em class="tag-plugin">plugin</em></th><td>Copy a link and the clipboard gets it without <code>utm_*</code>, <code>fbclid</code> and other tracking junk</td></tr>
-        <tr><th>reveal <em class="tag-plugin">plugin</em></th><td><kbd>⇧⌘R</kbd> on a file, project or app shows it in Finder</td></tr>
-        <tr><th>Write your own</th><td>A <code>plugin.toml</code> plus a script in any language that prints JSON lines: sources, answers, badges and actions. Hot-reloads on save</td></tr>
-        <tr><th>Let your AI write it</th><td>The format ships as <code>AGENTS.md</code>; <code>--try-plugin</code> shows what the bar would show</td></tr>
-        <tr><th>Share them</th><td>Add from any git repo, or point <code>[plugins] paths</code> at a team folder</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-actions-and-keys">
-    <summary><b>Actions and keys</b><span>Any shell line on ⌘1–⌘9 and ⌘K, aliases, project tasks</span></summary>
-    <p class="sub">Every action is one shell line in your config.</p>
-    <video class="clip" src="clips/no-match-actions.mp4" poster="clips/no-match-actions.jpg" muted loop playsinline preload="none" aria-label="actions and keys in the Euclid panel"></video>
-    <table>
-        <tr><th>Actions</th><td>Run any command on what you typed. Your query arrives as <code>$1</code>, passed as an argument, never pasted into the command</td></tr>
-        <tr><th>Action shortcuts</th><td><kbd>⌘↵</kbd> runs your first action, <kbd>⌘1</kbd>–<kbd>⌘9</kbd> run the rest</td></tr>
-        <tr><th>Action palette</th><td><kbd>⌘K</kbd>: arrow keys, numbers or type to filter</td></tr>
-        <tr><th>Aliases</th><td><code>gh swift testing</code> runs the GitHub action on "swift testing"</td></tr>
-        <tr><th>No match? Ask an agent</th><td>When nothing matches, your actions show up, so a question is one <kbd>↵</kbd> from Claude, Codex, pi or a local model</td></tr>
-        <tr><th>Ghostty</th><td><code>ghostty-run</code> opens a tab, split or window. A readable script in <code>~/.config/euclid/bin</code></td></tr>
-        <tr><th>Preview pane</th><td><kbd>→</kbd> or <kbd>⌘Y</kbd>: the full clip, images, Quick Look, a project's README, a page's text</td></tr>
-        <tr><th>Copy anything</th><td><kbd>⌘C</kbd> copies the clip, a page's URL, or a path. <kbd>⌘⌫</kbd> deletes a clip</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-without-opening-the-panel">
-    <summary><b>Without opening the panel</b><span>Text expansion, per-command hotkeys, MCP server</span></summary>
-    
-    <video class="clip" src="clips/expansion.mp4" poster="clips/expansion.jpg" muted loop playsinline preload="none" aria-label="without opening the panel in the Euclid panel"></video>
-    <table>
-        <tr><th>Text expansion <em>opt-in</em></th><td>Type a snippet's keyword in any app and it turns into the snippet. Needs Accessibility</td></tr>
-        <tr><th>Permissions in one place</th><td>Type <code>permissions</code> to see what's allowed and what's missing; ↵ opens the right System Settings pane</td></tr>
-        <tr><th>Per-command hotkeys</th><td>Give any app, project, action or snippet its own hotkey in <code>[hotkeys]</code>. Its row shows it</td></tr>
-        <tr><th>Global hotkey</th><td><kbd>⌥Space</kbd> by default, any combination you like</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-ai-your-way">
-    <summary><b>AI, your way</b><span>Your API key, a local model, or none</span></summary>
-    <p class="sub">Euclid has no AI of its own and no AI plan.</p>
-    <table>
-        <tr><th>Bring your own agent</th><td>Claude Code, Codex, pi, or anything with a CLI, as an action</td></tr>
-        <tr><th>Local models</th><td>Ollama or any local runner, no API key</td></tr>
-        <tr><th>MCP server</th><td><code>euclid-bar --mcp</code> lets your agents search your clipboard, notes and browser history. Read-only</td></tr>
-        <tr><th>Choose what's shared</th><td><code>[agents] share</code> picks what agents can see; <code>[]</code> shares nothing</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-config-and-teams">
-    <summary><b>Config and teams</b><span>One TOML file, team includes, Raycast and Alfred import</span></summary>
-    <p class="sub"><code>~/.config/euclid/config.toml</code>, made with comments on first launch.</p>
-    <table>
-        <tr><th>Applies on save</th><td>A typo never breaks the app: the last good config stays active and the error shows in the footer</td></tr>
-        <tr><th><code>--check-config</code></th><td>Lints the file and flags unknown keys. Great in dotfiles CI</td></tr>
-        <tr><th>Team config</th><td><code>include</code> a shared file; your settings win and your actions stay first</td></tr>
-        <tr><th>Import</th><td>Raycast and Alfred snippets and quicklinks become TOML</td></tr>
-        <tr><th>Your shell and env</th><td>Actions run as a login shell; add variables in <code>[env]</code></td></tr>
-        <tr><th>Your editor</th><td>Edit Config… opens the editor you set, by app or command</td></tr>
-        <tr><th>Tokens stay out of the file</th><td>Integrations read secrets with your own command: Keychain, 1Password CLI</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-look-and-feel">
-    <summary><b>Look and feel</b><span>Native AppKit, 10 themes, accent and density</span></summary>
-    
-    <video class="clip" src="clips/compact-accent.mp4" poster="clips/compact-accent.jpg" muted loop playsinline preload="none" aria-label="look and feel in the Euclid panel"></video>
-    <table>
-        <tr><th>Native and light</th><td>Swift and AppKit. No Electron, no web views</td></tr>
-        <tr><th>Liquid Glass</th><td>On macOS 26, switchable with <code>glass = false</code></td></tr>
-        <tr><th>Grows with results</th><td>The panel is as tall as what it shows</td></tr>
-        <tr><th>Themes</th><td>Dracula, Nord, Tokyo Night, Catppuccin, Gruvbox, Solarized, Monokai, or your own. Switch instantly</td></tr>
-        <tr><th>Your accent and density</th><td><code>accent = "#ff8a3d"</code>, <code>density = "compact"</code></td></tr>
-        <tr><th>Speed in the footer</th><td><code>12,431 items · 0.6 ms</code> on every search</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-privacy">
-    <summary><b>Privacy</b><span>Everything stays on your Mac</span></summary>
-    
-    <table>
-        <tr><th>Local only</th><td>Clipboard, history, index and ranking live in <code>~/Library/Application Support/Euclid</code></td></tr>
-        <tr><th>Password managers ignored</th><td>1Password and friends are never recorded; add more with <code>ignore_apps</code></td></tr>
-        <tr><th>No account, nothing without asking</th><td>Crash reports and an anonymous usage ping only if you say yes. The licence is checked offline</td></tr>
-    </table>
-  </details>
-
-  <details class="flist" id="f-updates-and-licence">
-    <summary><b>Updates and licence</b><span>Signed updates, free during the beta</span></summary>
-    
-    <video class="clip" src="clips/updates.mp4" poster="clips/updates.jpg" muted loop playsinline preload="none" aria-label="updates and licence in the Euclid panel"></video>
-    <table>
-        <tr><th>Auto-update</th><td>Signed and notarized updates, installed in the background. A menu toggle turns it off</td></tr>
-        <tr><th>Dev channel</th><td><code>channel = "dev"</code> gets a build of every change</td></tr>
-        <tr><th>Pay once</th><td>Free for personal use during the beta. No subscription, ever</td></tr>
-    </table>
-  </details>
 
   <section id="agent">
     <h2>Describe a plugin. Your agent builds it.</h2>
@@ -427,6 +245,7 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
     <a href="terms/">Terms</a>
     <a href="privacy/">Privacy</a>
     <a href="refunds/">Refunds</a>
+    <a href="docs/">Docs</a>
     <a href="feedback/">Feedback</a>
     <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
     <a href="https://github.com/stellalie/euclid-bar-releases/releases">Release notes</a>
@@ -519,9 +338,6 @@ and fix it until it prints OK, then tell me what to type in Euclid to see it.`;
   new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); play(); } }).observe(screen);
 </script>
 <script>
-  // A link to #f-<group> opens that group.
-  const openHash = () => { const d = document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') d.open = true; };
-  addEventListener('hashchange', openHash); openHash();
   // Clips play only while on screen.
   const clipObserver = new IntersectionObserver((entries) => {
     for (const e of entries) e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause();
