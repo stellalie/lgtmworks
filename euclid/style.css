@@ -307,3 +307,5 @@ figure.shot code { color: var(--code); font-size: .9em; }
 /* Feature and plugin clips */
 video.clip { display: block; width: 100%; height: auto; aspect-ratio: 1240 / 680; border-radius: 10px; border: 1px solid var(--line); background: #1d1530; margin: 0 0 14px; }
 .flist video.clip { max-width: 720px; border-radius: 14px; }
+.flist h3 { font-size: 22px; letter-spacing: -.01em; margin: 0 0 6px; }
+#features + .flist { padding-top: 16px; }
