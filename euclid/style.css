@@ -316,3 +316,13 @@ video.clip { display: block; width: 100%; height: auto; aspect-ratio: 1240 / 680
 .flist tr.head th, .flist tr.head td { font-size: 12px; font-family: var(--mono); color: var(--muted); font-weight: 500; text-transform: lowercase; }
 @media (max-width: 640px) { .flist.ref td:nth-child(2) { width: auto; } .flist.ref td:nth-child(2):before { content: "default: "; color: var(--muted); font-size: 12px; } .flist tr.head { display: none; } }
 .docpart code { overflow-wrap: anywhere; }
+
+/* Changelog */
+.devbuild { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin: 0 0 8px; }
+.devbuild p { margin: 0; }
+.devbuild .fine { margin-top: 6px; }
+.devbuild #dev-meta { color: var(--muted); font-family: var(--mono); font-size: 14px; }
+.rel { padding: 28px 0 0; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+.changelog .rel h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 22px; }
+.rel h3 span { color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 500; margin-left: 10px; }
+.rel .dl { font-size: 14px; }

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog · Euclid</title>
+<meta name="description" content="What changed in each Euclid release, plus the latest dev build.">
+<link rel="canonical" href="https://lgtm.ninja/euclid/changelog/">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="../" style="display:flex;align-items:center;gap:10px;text-decoration:none"><img src="../icon.png" alt=""><span>Euclid</span></a>
+    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
+    <div class="links">
+      <a href="../#why">Why</a>
+      <a href="../docs/">Docs</a>
+      <a href="../plugins/">Plugins</a>
+      <a href="../#pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <article class="legal changelog">
+    <h2>Changelog</h2>
+    <p class="sub">Every stable release, newest first. Euclid updates itself; nothing to do but read.</p>
+
+    <div class="devbuild" id="dev">
+      <div class="num">dev channel · every merge to main</div>
+      <p><b id="dev-name">Latest dev build</b> <span id="dev-meta"></span></p>
+      <p class="fine">Signed and notarized, a few hours fresher than stable. Opt in with
+        <code>[updates] channel = "dev"</code>. <a id="dev-link" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/dev">Download</a></p>
+    </div>
+
+    <section class="rel" id="v1.3.0">
+      <h3>1.3.0 <span>31 Oct 2026</span></h3>
+      <ul>
+        <li><b>AI answers in the bar.</b> The <code>ai</code> plugin uses Apple's on-device model by default, or the AI CLI you're already logged into. No API key, no account.</li>
+        <li><b>Opt-in crash and error reports.</b> Stack and versions only, never your data. Off unless you set <code>[privacy] crash_reports = true</code>.</li>
+      </ul>
+      <a class="dl" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/v1.3.0">Download 1.3.0</a>
+    </section>
+
+    <section class="rel" id="v1.2.1">
+      <h3>1.2.1 <span>31 Oct 2026</span></h3>
+      <ul>
+        <li><b>Themes.</b> 10 editor palettes (Catppuccin, Dracula, Gruvbox, Monokai, Nord, Solarized, Tokyo Night) and your own theme files: <code>[appearance] theme</code>.</li>
+        <li><b>Bitbucket and Jira are plugins now.</b> Same results, off until you want them.</li>
+        <li><b>Permissions in one row.</b> A plugin whose CLI is missing names it.</li>
+        <li><b>Speed has a budget.</b> CI fails if a keystroke over 10k+ items takes more than 8 ms.</li>
+        <li><b>Fixed</b> the "couldn't read Dia" history warning repeating.</li>
+        <li><b>Cut</b> page text search, the usage receipt and <code>mod:</code> in the bar. Fewer features, done well.</li>
+      </ul>
+      <a class="dl" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/v1.2.1">Download 1.2.1</a>
+    </section>
+
+    <section class="rel" id="v1.2.0">
+      <h3>1.2.0 <span>25 Oct 2026</span></h3>
+      <ul>
+        <li><b>Plugins.</b> Sources, answers, badges and actions from any script. <code>euclid-bar --plugin list</code> shows what's on.</li>
+        <li><b>Text expansion and per-command hotkeys.</b></li>
+        <li><b>MCP.</b> Claude Code and Codex can search Euclid.</li>
+        <li><b>Project tasks from ⌘K</b>, a shared team config via include, and imports of Raycast and Alfred snippets and quicklinks.</li>
+        <li><b>New panel.</b> Glass background (macOS 26), preview pane, snippets, image clips and notes search.</li>
+        <li><b>Signed, notarized and self-updating.</b> Updates menu, auto-install toggle and the dev channel. The app is now <code>Euclid.app</code>.</li>
+      </ul>
+      <a class="dl" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/v1.2.0">Download 1.2.0</a>
+    </section>
+
+    <p class="fine">Older builds and checksums: <a href="https://github.com/stellalie/euclid-bar-releases/releases">all releases on GitHub</a>.</p>
+  </article>
+
+  <footer>
+    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+    <a href="../terms/">Terms</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../refunds/">Refunds</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="../feedback/">Feedback</a>
+    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+  </footer>
+</div>
+<script>
+// Live dev build: the rolling "dev" release is replaced on every merge, so ask GitHub what's there now.
+// On any failure the static link above still works.
+(async () => {
+  try {
+    const r = await fetch("https://api.github.com/repos/stellalie/euclid-bar-releases/releases/tags/dev");
+    if (!r.ok) return;
+    const rel = await r.json();
+    const dmg = (rel.assets || []).find(a => a.name.endsWith(".dmg"));
+    const version = (rel.name || "").replace(/^Dev build\s*/, "");
+    const commit = ((rel.body || "").match(/@\s*([0-9a-f]{7,})/) || [])[1];
+    const built = dmg ? new Date(dmg.updated_at) : null;
+    if (version) document.getElementById("dev-name").textContent = version;
+    const bits = [];
+    if (built) bits.push("built " + built.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }));
+    if (commit) bits.push("from " + commit);
+    document.getElementById("dev-meta").textContent = bits.length ? "· " + bits.join(" · ") : "";
+    if (dmg) {
+      const a = document.getElementById("dev-link");
+      a.href = dmg.browser_download_url;
+      a.textContent = "Download .dmg";
+    }
+  } catch (_) {}
+})();
+</script>
+<!-- Cloudflare Web Analytics: cookie-free page views -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "153c6065866e4bef9595b3c0df2fc248"}'></script>
+</body>
+</html>
