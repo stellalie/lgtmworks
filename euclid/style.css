@@ -307,17 +307,15 @@ figure.shot code { color: var(--code); font-size: .9em; }
 /* Feature and plugin clips */
 video.clip { display: block; width: 100%; height: auto; aspect-ratio: 1240 / 680; border-radius: 10px; border: 1px solid var(--line); background: #1d1530; margin: 0 0 14px; }
 .flist video.clip { max-width: 720px; border-radius: 14px; }
-details.flist { padding: 0; border-top: 1px solid var(--line); }
-details.flist:last-of-type { border-bottom: 1px solid var(--line); }
-#features + details.flist { margin-top: 8px; }
-details.flist > summary { display: flex; gap: 16px; align-items: baseline; padding: 14px 4px; cursor: pointer; list-style: none; }
-details.flist > summary::-webkit-details-marker { display: none; }
-details.flist > summary::before { content: "+"; font-family: var(--mono); color: var(--accent); width: 1ch; flex: none; }
-details.flist[open] > summary::before { content: "−"; }
-details.flist > summary b { flex: none; width: 30%; }
-details.flist > summary span { color: var(--muted); }
-details.flist[open] { padding-bottom: 24px; }
-@media (max-width: 640px) { details.flist > summary { flex-wrap: wrap; gap: 2px 12px; } details.flist > summary b { width: auto; } details.flist > summary span { flex-basis: 100%; padding-left: calc(1ch + 12px); } }
+.flist h3 { font-size: 22px; letter-spacing: -.01em; margin: 0 0 6px; }
+.docpart { padding-top: 64px; }
+.docpart + .flist { padding-top: 16px; }
+.flist.ref h3 code { font-size: .9em; color: var(--text); }
+.flist.ref th { width: 26%; }
+.flist.ref td:nth-child(2) { width: 22%; white-space: normal; }
+.flist tr.head th, .flist tr.head td { font-size: 12px; font-family: var(--mono); color: var(--muted); font-weight: 500; text-transform: lowercase; }
+@media (max-width: 640px) { .flist.ref td:nth-child(2) { width: auto; } .flist.ref td:nth-child(2):before { content: "default: "; color: var(--muted); font-size: 12px; } .flist tr.head { display: none; } }
+.docpart code { overflow-wrap: anywhere; }
 
 /* Changelog */
 .devbuild { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin: 0 0 8px; }

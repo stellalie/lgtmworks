@@ -4,5 +4,5 @@
 
 - [Plugin guide for agents](https://lgtm.ninja/euclid/plugins/AGENTS.md): the full plugin format, with rules and examples
 - [Plugins and actions](https://lgtm.ninja/euclid/plugins/): directory of plugins and copy-paste actions
-- [Every feature](https://lgtm.ninja/euclid/#features)
+- [Docs: every feature, config key and command-line option](https://lgtm.ninja/euclid/docs/)
 - [Changelog](https://lgtm.ninja/euclid/changelog/): what changed in each release, plus the latest dev build
