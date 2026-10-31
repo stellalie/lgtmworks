@@ -337,7 +337,15 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
     personal: { priceId: "pri_01m5q75xfm3ptqwwj80e6spnb9", quantity: 1 },
     business: { priceId: "pri_01m5q73hw0zjq6vn24z020nwmd", quantity: 1 },
   };
-  if (PADDLE_TOKEN && window.Paddle) Paddle.Initialize({ token: PADDLE_TOKEN });
+  // After a purchase, the thank-you page fetches the licence key for the order.
+  if (PADDLE_TOKEN && window.Paddle) Paddle.Initialize({
+    token: PADDLE_TOKEN,
+    eventCallback: (e) => {
+      if (e.name === "checkout.completed" && e.data?.transaction_id) {
+        setTimeout(() => (location.href = "thanks/?txn=" + e.data.transaction_id), 1500);
+      }
+    },
+  });
   for (const b of document.querySelectorAll("[data-price]")) {
     b.addEventListener("click", (e) => {
       e.preventDefault();
