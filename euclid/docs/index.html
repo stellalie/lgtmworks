@@ -136,7 +136,6 @@
         <tr><th>Applies on save</th><td>A typo never breaks the app: the last good config stays active and the error shows in the footer</td></tr>
         <tr><th><code>--check-config</code></th><td>Lints the file and flags unknown keys. Great in dotfiles CI</td></tr>
         <tr><th>Team config</th><td><code>include</code> a shared file; your settings win and your actions stay first</td></tr>
-        <tr><th>Import</th><td>Raycast and Alfred snippets and quicklinks become TOML</td></tr>
         <tr><th>Your shell and env</th><td>Actions run as a login shell; add variables in <code>[env]</code></td></tr>
         <tr><th>Your editor</th><td>Edit Config… opens the editor you set, by app or command</td></tr>
         <tr><th>Tokens stay out of the file</th><td>Integrations read secrets with your own command: Keychain, 1Password CLI</td></tr>
@@ -315,6 +314,14 @@
     </table>
   </section>
 
+  <section class="flist ref" id="cfg-startup">
+    <h3><code>[startup]</code></h3>
+    <table>
+        <tr class="head"><th>Key</th><td>Default</td><td>What it does</td></tr>
+        <tr><th><code>open_at_login</code></th><td>true</td><td>Start Euclid when you log in, so the hotkey works after a restart. Also in the menu bar icon</td></tr>
+    </table>
+  </section>
+
   <section class="flist ref" id="cfg-privacy">
     <h3><code>[privacy]</code></h3>
     <table>
@@ -404,7 +411,6 @@
         <tr><th><code>--plugin add &lt;name | git URL&gt;</code></th><td>Installs a plugin: github, linear, bitbucket, jira, slack, tokens, define, currency, contacts, shortcuts, cleanlinks, reveal, ai</td></tr>
         <tr><th><code>--plugin list</code></th><td>What's installed, and what else you can add</td></tr>
         <tr><th><code>--try-plugin &lt;id&gt; [query]</code></th><td>Runs one plugin once and shows its rows. Prints OK when it works</td></tr>
-        <tr><th><code>--import &lt;files&gt;</code></th><td>Turns Raycast or Alfred exports into TOML: <code>--import snippets.json &gt;&gt; config.toml</code></td></tr>
         <tr><th><code>--mcp</code></th><td>Runs the MCP server your coding agents use to search Euclid</td></tr>
         <tr><th><code>--ai &lt;prompt&gt;</code></th><td>Asks Apple's on-device model (macOS 26 with Apple Intelligence). <code>--ai --check</code> exits 0 when ready</td></tr>
         <tr><th><code>--speed-budget</code></th><td>Times every keystroke over 10,000+ items and fails when one is slow</td></tr>
