@@ -411,6 +411,91 @@ jq -c --arg to &quot;$to&quot; --arg from &quot;$from&quot; --arg n &quot;$amoun
      copy: $v, icon: &quot;dollarsign.arrow.circlepath&quot;, label: &quot;Currency&quot;}&#x27; &quot;$cache&quot;</pre>
         </details>
       </article>
+      <article class="recipe">
+        <header><h3>Raycast scripts</h3><span class="cat">Source + views</span></header>
+        <p>Runs the Raycast script commands you already have, unchanged: each script is a row, and <code>rc &lt;name&gt; &lt;args&gt;</code> runs one with arguments. Reads <code>@raycast.title</code>, <code>mode</code> (silent, compact, fullOutput, inline), <code>argument1</code>–<code>3</code>, <code>needsConfirmation</code>, <code>icon</code> and <code>currentDirectoryPath</code>.</p>
+        <p class="example">Type <code>rc weather Sydney</code> → the Weather script's full output, as a page to read.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add raycast</pre>
+        <details class="howitworks"><summary>How it's written · 159 lines</summary>
+          <p>A <b>source</b> lists the scripts in <code>~/.config/euclid/raycast</code> (or the <code>folders</code> you set); <code>run.sh</code> runs one and prints a <b>detail view</b>, a footer notice, or a confirm list. Script arguments become <b>typed fields</b> in the search bar.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Raycast scripts&quot;
+description = &quot;Raycast script commands from a folder: each is a row, `rc &lt;name&gt; &lt;args&gt;` runs one with arguments.&quot;
+
+[source]                  # every script, as a row; ↵ runs it (asking for its arguments first)
+run = &quot;./list.sh&quot;
+refresh_minutes = 5
+
+[answer]                  # `rc weather Sydney`: the matching scripts, ready to run with &quot;Sydney&quot;
+run    = &quot;./list.sh&quot;
+prefix = &quot;rc&quot;
+
+[settings]
+folders = &quot;~/.config/euclid/raycast&quot;   # space-separated; e.g. a clone of github.com/raycast/script-commands</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <header><h3>Emoji</h3><span class="cat">Grid view</span></header>
+        <p>Every emoji in a grid you filter as you type; <code>emoji heart</code> answers inline. <kbd>↵</kbd> pastes, <kbd>⌘C</kbd> copies.</p>
+        <p class="example">Type <code>emoji</code>, <kbd>↵</kbd>, then <code>party</code> → 🥳 🎉 as tiles.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add emoji</pre>
+        <details class="howitworks"><summary>How it's written · 23 lines</summary>
+          <p><code>grid.sh</code> prints a <code>{"view":"grid"}</code> header and one row per emoji: that's the whole grid.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Emoji&quot;
+description = &quot;Emoji picker: “Emoji” opens a grid, `emoji heart` lists matches. ↵ pastes, ⌘C copies.&quot;
+
+[source]                  # one row, “Emoji”: ↵ opens the grid (grid.sh prints a view)
+run = &quot;./items.sh&quot;
+refresh_minutes = 1440
+
+[answer]                  # `emoji heart`
+run    = &quot;./find.sh&quot;
+prefix = &quot;emoji&quot;</pre><p class="file">items.sh</p><pre>#!/bin/sh
+echo &#x27;{&quot;title&quot;:&quot;Emoji&quot;,&quot;subtitle&quot;:&quot;Pick from every emoji, ↵ pastes it&quot;,&quot;run&quot;:&quot;./grid.sh&quot;,&quot;icon&quot;:&quot;😀&quot;,&quot;id&quot;:&quot;emoji:grid&quot;}&#x27;</pre><p class="file">grid.sh</p><pre>#!/bin/sh
+# A grid view: the header line, then one item per emoji (emoji.tsv: emoji, name, group).
+echo &#x27;{&quot;view&quot;:&quot;grid&quot;,&quot;title&quot;:&quot;Emoji&quot;,&quot;placeholder&quot;:&quot;Search emoji…&quot;,&quot;columns&quot;:8}&#x27;
+awk -F &#x27;\t&#x27; &#x27;{ printf &quot;{\&quot;title\&quot;:\&quot;%s\&quot;,\&quot;subtitle\&quot;:\&quot;%s\&quot;,\&quot;icon\&quot;:\&quot;%s\&quot;,\&quot;paste\&quot;:\&quot;%s\&quot;,\&quot;copy\&quot;:\&quot;%s\&quot;,\&quot;id\&quot;:\&quot;%s\&quot;}\n&quot;, $2, $3, $1, $1, $1, $1 }&#x27; emoji.tsv</pre>
+        </details>
+      </article>
+      <article class="recipe">
+        <header><h3>Volume</h3><span class="cat">Source + answer</span></header>
+        <p>Volume Up, Down and Mute as rows, <code>vol 40</code>, and Set Volume with a dropdown. The new level shows in the footer, so <kbd>↵</kbd> again keeps turning it up.</p>
+        <p class="example">Type <code>vol 40</code> → “Set volume to 40%”; <kbd>↵</kbd> sets it.</p>
+        <pre><button class="copy" type="button">Copy</button>euclid-bar --plugin add volume</pre>
+        <details class="howitworks"><summary>How it's written · 41 lines</summary>
+          <p><code>set.sh</code> changes the volume with AppleScript and prints <code>{"notice":"🔊 Volume 40%"}</code>; Set Volume asks for a <b>dropdown</b> argument first.</p>
+          <p class="file">plugin.toml</p><pre>name = &quot;Volume&quot;
+description = &quot;Volume Up, Down and Mute as rows; `vol 40` sets the output volume. ↵ again repeats.&quot;
+
+[source]
+run = &quot;./items.sh&quot;
+refresh_minutes = 1440
+
+[answer]                  # `vol 40`, `vol mute`
+run    = &quot;./find.sh&quot;
+prefix = &quot;vol&quot;</pre><p class="file">items.sh</p><pre>#!/bin/sh
+echo &#x27;{&quot;title&quot;:&quot;Volume Up&quot;,&quot;run&quot;:&quot;./set.sh up&quot;,&quot;icon&quot;:&quot;speaker.wave.3.fill&quot;,&quot;id&quot;:&quot;volume:up&quot;}&#x27;
+echo &#x27;{&quot;title&quot;:&quot;Volume Down&quot;,&quot;run&quot;:&quot;./set.sh down&quot;,&quot;icon&quot;:&quot;speaker.wave.1.fill&quot;,&quot;id&quot;:&quot;volume:down&quot;}&#x27;
+echo &#x27;{&quot;title&quot;:&quot;Mute&quot;,&quot;run&quot;:&quot;./set.sh mute&quot;,&quot;icon&quot;:&quot;speaker.slash.fill&quot;,&quot;id&quot;:&quot;volume:mute&quot;}&#x27;
+echo &#x27;{&quot;title&quot;:&quot;Unmute&quot;,&quot;run&quot;:&quot;./set.sh unmute&quot;,&quot;icon&quot;:&quot;speaker.wave.2.fill&quot;,&quot;id&quot;:&quot;volume:unmute&quot;}&#x27;
+# A typed argument: ↵ asks for the level, then runs `./set.sh &lt;value&gt;`.
+echo &#x27;{&quot;title&quot;:&quot;Set Volume&quot;,&quot;run&quot;:&quot;./set.sh&quot;,&quot;icon&quot;:&quot;speaker.wave.2&quot;,&quot;id&quot;:&quot;volume:set&quot;,&quot;arguments&quot;:[{&quot;type&quot;:&quot;dropdown&quot;,&quot;placeholder&quot;:&quot;Level&quot;,&quot;data&quot;:[{&quot;title&quot;:&quot;0%&quot;,&quot;value&quot;:&quot;0&quot;},{&quot;title&quot;:&quot;25%&quot;,&quot;value&quot;:&quot;25&quot;},{&quot;title&quot;:&quot;50%&quot;,&quot;value&quot;:&quot;50&quot;},{&quot;title&quot;:&quot;75%&quot;,&quot;value&quot;:&quot;75&quot;},{&quot;title&quot;:&quot;100%&quot;,&quot;value&quot;:&quot;100&quot;}]}]}&#x27;</pre><p class="file">set.sh</p><pre>#!/bin/sh
+# Changes the output volume with AppleScript, then says the new level in the footer.
+case $1 in
+  up)     osascript -e &#x27;set volume output volume ((output volume of (get volume settings)) + 10)&#x27; -e &#x27;set volume without output muted&#x27; ;;
+  down)   osascript -e &#x27;set volume output volume ((output volume of (get volume settings)) - 10)&#x27; ;;
+  mute)   osascript -e &#x27;set volume with output muted&#x27; ;;
+  unmute) osascript -e &#x27;set volume without output muted&#x27; ;;
+  *[!0-9]*|&#x27;&#x27;) echo &quot;usage: set.sh up|down|mute|unmute|0-100&quot; &gt;&amp;2; exit 64 ;;
+  *)      osascript -e &quot;set volume output volume $1&quot; -e &#x27;set volume without output muted&#x27; ;;
+esac || exit 1
+level=$(osascript -e &#x27;output volume of (get volume settings)&#x27;)
+muted=$(osascript -e &#x27;output muted of (get volume settings)&#x27;)
+case $level in
+  *missing*) echo &#x27;{&quot;notice&quot;:&quot;This output has no volume control&quot;}&#x27; ;;
+  *) if [ &quot;$muted&quot; = true ]; then echo &#x27;{&quot;notice&quot;:&quot;🔇 Muted&quot;}&#x27;; else echo &quot;{\&quot;notice\&quot;:\&quot;🔊 Volume $level%\&quot;}&quot;; fi ;;
+esac</pre>
+        </details>
+      </article>
     </div>
     <p class="fine"><code>euclid-bar</code> is <code>/Applications/Euclid.app/Contents/MacOS/euclid-bar</code>. To type it
       short, run <code>alias euclid-bar=/Applications/Euclid.app/Contents/MacOS/euclid-bar</code>.
