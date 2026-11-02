@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Euclid for IT teams</title>
+<meta name="description" content="What Euclid installs, stores, sends and asks for: a one-page review for IT and security teams.">
+<link rel="canonical" href="https://lgtm.ninja/euclid/it/">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="../" style="display:flex;align-items:center;gap:10px;text-decoration:none"><img src="../icon.png" alt=""><span>Euclid</span></a>
+    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
+    <div class="links">
+      <a href="../#why">Why</a>
+      <a href="../docs/">Docs</a>
+      <a href="../plugins/">Plugins</a>
+      <a href="../#pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <article class="legal">
+    <h2>Euclid for IT teams</h2>
+    <p class="sub">Someone at your company asked to use Euclid. This page is what you need to review it.</p>
+    <p>Euclid is a launcher for macOS: one shortcut to open apps, find files and projects, and paste earlier clipboard entries and snippets. It runs on the Mac, with no account and no cloud service.</p>
+
+    <h3>The app</h3>
+    <ul>
+      <li><b>Publisher:</b> LGTM Ninja, Sydney, Australia. Contact <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>.</li>
+      <li><b>Bundle ID:</b> <code>dev.euclid.Euclid</code>, installed as <code>Euclid.app</code>.</li>
+      <li><b>Signed and notarized:</b> signed with an Apple Developer ID certificate and notarized by Apple.</li>
+      <li><b>Native:</b> Swift and AppKit. No Electron, no web views, no bundled runtime.</li>
+      <li><b>Install:</b> a standard DMG. It runs from <code>/Applications</code> or from the user's own <code>~/Applications</code>.</li>
+    </ul>
+
+    <h3>Network</h3>
+    <p>Euclid works with the network unplugged. These are all the connections it makes:</p>
+    <ul>
+      <li><b>Update check</b>, daily: <code>github.com/stellalie/euclid-bar-releases</code> (Sparkle feed). Turn it off with <code>[updates] check = false</code>.</li>
+      <li><b>Crash reports</b>, only if the user says yes: <code>reports.lgtm.ninja</code>. Off unless chosen; a copy of each is kept in <code>~/Library/Logs/Euclid/Reports</code>.</li>
+      <li><b>Usage ping</b>, only if the user says yes: <code>reports.lgtm.ninja</code>, once a day, a random install ID plus app and macOS version.</li>
+      <li><b>Plugins and actions the user adds</b> (for example a Jira plugin) connect only to the services they name, from the Mac, with the user's own credentials.</li>
+      <li>No analytics, no advertising, no built-in AI service. The licence is checked offline.</li>
+    </ul>
+
+    <h3>Data on the Mac</h3>
+    <ul>
+      <li><code>~/Library/Application Support/Euclid</code>: clipboard history, search index and learned rankings. Never uploaded.</li>
+      <li><code>~/.config/euclid</code>: the user's settings, scripts and plugins, as plain text.</li>
+      <li>Copies from 1Password and other password managers are never recorded. More apps can be excluded with <code>[clipboard] ignore_apps</code>.</li>
+    </ul>
+
+    <h3>Permissions</h3>
+    <p>All optional. Search, hotkeys and the clipboard list work without any of them.</p>
+    <ul>
+      <li><b>Accessibility:</b> to paste a clip or snippet into the app in front, and for text expansion. Without it, Euclid copies and the user pastes.</li>
+      <li><b>Full Disk Access:</b> only to search Safari history.</li>
+    </ul>
+
+    <h3>Configuration you can manage</h3>
+    <ul>
+      <li>Everything is in one text file, <code>~/.config/euclid/config.toml</code>. Each feature is one line that can be turned off.</li>
+      <li><code>include = ["/path/to/company.toml"]</code> reads a shared file underneath the user's own, so you can ship company defaults.</li>
+      <li><code>[history] enabled = false</code>, <code>[updates] check = false</code> and <code>[privacy]</code> switch off browser history, update checks and reporting.</li>
+    </ul>
+
+    <p>More detail: <a href="../privacy/">privacy policy</a> · <a href="../docs/">docs</a>. Questions or a security review: <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>.</p>
+  </article>
+
+  <footer>
+    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+    <a href="../terms/">Terms</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../refunds/">Refunds</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="../it/">For IT</a>
+    <a href="../feedback/">Feedback</a>
+    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+  </footer>
+</div>
+<!-- Cloudflare Web Analytics: cookie-free page views -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "153c6065866e4bef9595b3c0df2fc248"}'></script>
+</body>
+</html>
