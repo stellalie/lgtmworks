@@ -87,7 +87,13 @@
         <tr><th>cleanlinks <em class="tag-plugin">plugin</em></th><td>Copy a link and the clipboard gets it without <code>utm_*</code>, <code>fbclid</code> and other tracking junk</td></tr>
         <tr><th>reveal <em class="tag-plugin">plugin</em></th><td><kbd>⇧⌘R</kbd> on a file, project or app shows it in Finder</td></tr>
         <tr><th>ai <em class="tag-plugin">plugin</em></th><td>Your own AI, no API key: <code>ai &lt;question&gt;</code> answers right in the bar; on a clip, <kbd>⇧⌘F</kbd> fixes the writing and pastes it back, <kbd>⇧⌘T</kbd> translates, <kbd>⇧⌘E</kbd> explains. Apple's on-device model by default (free, private), or the <code>claude</code>, <code>codex</code> or <code>gemini</code> CLI you're logged into, or <code>ollama</code></td></tr>
+        <tr><th>raycast <em class="tag-plugin">plugin</em></th><td>Your Raycast script commands, unchanged: each is a row, <code>rc &lt;name&gt; &lt;args&gt;</code> runs one. Modes silent, compact, fullOutput and inline; typed arguments; confirmation</td></tr>
+        <tr><th>emoji <em class="tag-plugin">plugin</em></th><td>Every emoji in a grid you filter as you type; <code>emoji heart</code> answers inline. <kbd>↵</kbd> pastes</td></tr>
+        <tr><th>volume <em class="tag-plugin">plugin</em></th><td>Volume Up, Down and Mute rows, <code>vol 40</code>, and Set Volume with a dropdown</td></tr>
         <tr><th>Write your own</th><td>A <code>plugin.toml</code> plus a script in any language that prints JSON lines: sources, answers, badges and actions. Hot-reloads on save</td></tr>
+        <tr><th>Screens from scripts</th><td>A script prints <code>{"view":"grid"}</code>, <code>list</code> or <code>detail</code> and then its rows: a grid of emoji or images, a filterable list, or a page of text. Icons can be SF Symbols, emoji or image files</td></tr>
+        <tr><th>Typed arguments</th><td>A row can ask for up to 3 fields (text, password, dropdown) in the search bar before it runs, in Raycast's <code>@raycast.argument</code> format</td></tr>
+        <tr><th>dmenu</th><td><code>euclid-bar --pick</code> opens the panel on any list piped into it and prints your choice: <code>git branch | euclid-bar --pick | xargs git switch</code></td></tr>
         <tr><th>Let your AI write it</th><td>The format ships as <code>AGENTS.md</code>; <code>--try-plugin</code> shows what the bar would show</td></tr>
         <tr><th>Share them</th><td>Add from any git repo, or point <code>[plugins] paths</code> at a team folder</td></tr>
     </table>

@@ -48,7 +48,7 @@
 
     <div class="demo">
       <video src="demo.mp4" poster="poster.jpg" autoplay muted loop playsinline
-             aria-label="Euclid searching clipboard and history, sending a question to an AI agent, then plugins and hotkeys"></video>
+             aria-label="Euclid searching clipboard and history, sending a question to an AI agent, then plugins, hotkeys and an emoji grid drawn by a script"></video>
     </div>
     <div class="speed"><b>10,000</b> items · <b>1.4 ms</b> worst case</div>
   </header>
@@ -171,12 +171,14 @@ click = 'ghostty-run tab npx -y ccusage@latest daily'</pre>
         <li><b><code>[answer]</code></b> replies to what you type, on a prefix or a regex.</li>
         <li><b><code>[badge]</code></b> puts a live status on the bar.</li>
         <li><b><code>[[action]]</code></b> adds commands to <code>⌘K</code>.</li>
+        <li><b>Screens are scripts too.</b> Print <code>{"view":"grid"}</code> and rows for a grid of emoji or images, a list, or a page of text. Rows can ask for up to 3 typed arguments first.</li>
+        <li><b>Raycast script commands run as they are</b>, and <code>euclid-bar --pick</code> is dmenu for the Mac: pipe in a list, get the choice back.</li>
         <li><b>Let your AI write one.</b> The format ships as <code>AGENTS.md</code>: ask Claude Code or Codex, check it with <code>--try-plugin</code>.</li>
       </ul>
     </div>
     <p class="fine" style="margin-top:22px">Ready to add, one command each:</p>
     <div class="chips">
-      <code>github</code><code>linear</code><code>slack</code><code>tokens</code><code>currency</code><code>define</code><code>contacts</code><code>shortcuts</code>
+      <code>github</code><code>linear</code><code>slack</code><code>tokens</code><code>currency</code><code>define</code><code>contacts</code><code>shortcuts</code><code>raycast</code><code>emoji</code><code>volume</code>
     </div>
     <pre class="oneline">euclid-bar --plugin add github</pre>
     <p class="fine"><a href="plugins/">Browse plugins and starter prompts →</a> · <a href="plugins/#actions">or paste a one-line action</a></p>
