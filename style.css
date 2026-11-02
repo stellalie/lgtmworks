@@ -86,7 +86,8 @@ footer .mono { font-size: 13px; }
 footer .legal a { color: inherit; }
 
 @media (max-width: 720px) {
-  nav .links { display: none; }
+  nav { flex-wrap: wrap; row-gap: 12px; padding-bottom: 12px; }
+  nav .links { margin-left: 0; width: 100%; gap: 0; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
   .hero { padding-top: 64px; }
   section { padding-top: 80px; }
   .steps { grid-template-columns: 1fr; gap: 24px; }
