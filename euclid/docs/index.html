@@ -127,7 +127,19 @@
         <tr><th>Local models</th><td>Ollama or any local runner, no API key</td></tr>
         <tr><th>MCP server</th><td><code>euclid-bar --mcp</code> lets your agents search your clipboard, notes and browser history. Read-only</td></tr>
         <tr><th>Choose what's shared</th><td><code>[agents] share</code> picks what agents can see; <code>[]</code> shares nothing</td></tr>
+        <tr><th>Change settings in plain words</th><td>Search <code>settings</code> › Change Settings with AI… gives a prompt for any AI chat. It reads these docs, asks what you'd like, and replies with a config.toml to paste in Edit Config…</td></tr>
     </table>
+  </section>
+
+  <section class="flist" id="connect-agents">
+    <h3>Connect Claude Code or Codex</h3>
+    <p class="sub">Lets your agent search your clipboard, notes and browser history through <code>euclid-bar --mcp</code>.</p>
+    <p>Claude Code: run this in a terminal.</p>
+    <pre>claude mcp add euclid -- /Applications/Euclid.app/Contents/MacOS/euclid-bar --mcp</pre>
+    <p>Codex: add this to <code>~/.codex/config.toml</code>.</p>
+    <pre>[mcp_servers.euclid]
+command = "/Applications/Euclid.app/Contents/MacOS/euclid-bar"
+args    = ["--mcp"]</pre>
   </section>
 
   <section class="flist" id="config-and-teams">
