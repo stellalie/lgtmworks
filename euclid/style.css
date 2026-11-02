@@ -49,6 +49,9 @@ nav .links a:hover { color: var(--text); }
 
 .hero { text-align: center; padding: 56px 0 32px; }
 .hero img.icon { width: 96px; height: 96px; }
+.hero .brew { max-width: 720px; margin: 18px auto 0; text-align: left; }
+.hero .brew .fine { margin: 0 0 6px; text-align: center; }
+.hero .brew pre { font-size: 13px; padding: 14px 76px 14px 16px; white-space: pre-wrap; overflow-wrap: anywhere; }
 h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -.03em; margin: 20px 0 16px; }
 .lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); max-width: 640px; margin: 0 auto 28px; }
 .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
