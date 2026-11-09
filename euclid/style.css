@@ -64,7 +64,7 @@ h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -.03e
 .fine { font-size: 14px; color: var(--muted); margin-top: 14px; }
 
 .demo { margin: 32px auto 0; max-width: 960px; }
-.demo video { width: 100%; height: auto; display: block; border-radius: 14px; border: 1px solid var(--line); }
+.demo video { width: 100%; height: auto; aspect-ratio: 1100 / 660; display: block; border-radius: 14px; border: 1px solid var(--line); }
 .speed {
   margin: 18px auto 0; width: fit-content; font-family: var(--mono); font-size: 15px;
   color: var(--muted); padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
