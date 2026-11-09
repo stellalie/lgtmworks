@@ -34,9 +34,10 @@
     <p class="lead">A native macOS launcher for developers. Press <kbd>⌥Space</kbd>, type, hit <kbd>↵</kbd>.
       Instant, offline, and configured in one TOML file you can read top to bottom.</p>
     <div class="cta">
-      <a class="btn primary" href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download for macOS</a>
+      <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download for macOS</a>
       <a class="btn" href="#pricing">Pricing</a>
     </div>
+    <p class="fine next">Open the download, drag Euclid to Applications, open it, then press <kbd>⌥Space</kbd> anywhere.</p>
     <div class="brew">
       <p class="fine">Or with Homebrew:</p>
       <pre class="prompt"><button class="copy" type="button">Copy</button>brew tap stellalie/euclid https://github.com/stellalie/euclid-bar-releases
@@ -229,7 +230,7 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
           <li>No account, no subscription</li>
         </ul>
         <div class="cta" style="justify-content:flex-start">
-          <a class="btn primary" href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download free</a>
+          <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download free</a>
         </div>
       </div>
       <div class="card pro">
@@ -283,6 +284,17 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
       Paddle.Checkout.open({ items: [PRICES[b.dataset.price]] });
     });
   }
+</script>
+<script>
+  // Download buttons fetch the DMG itself, not GitHub's release page (whose "Source code" zips
+  // are a trap for anyone new). Falls back to the release page if GitHub can't be reached.
+  fetch('https://api.github.com/repos/stellalie/euclid-bar-releases/releases/latest')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((rel) => {
+      const dmg = rel && rel.assets.find((a) => a.name.endsWith('.dmg'));
+      if (dmg) for (const a of document.querySelectorAll('a[data-dmg]')) a.href = dmg.browser_download_url;
+    })
+    .catch(() => {});
 </script>
 <script>
   for (const b of document.querySelectorAll('.copy')) {

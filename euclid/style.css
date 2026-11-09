@@ -331,3 +331,4 @@ video.clip { display: block; width: 100%; height: auto; aspect-ratio: 1240 / 680
 .changelog .rel h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 22px; }
 .rel h3 span { color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 500; margin-left: 10px; }
 .rel .dl { font-size: 14px; }
+.hero .next { margin: 12px 0 0; }
