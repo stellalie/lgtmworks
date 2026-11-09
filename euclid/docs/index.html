@@ -30,9 +30,21 @@
     <h2>Docs</h2>
     <p class="sub">Everything Euclid does, every key in <code>~/.config/euclid/config.toml</code>, and every command-line option.
       Changes to the file apply on save. Writing a plugin? See <a href="../plugins/">Plugins</a>.</p>
-    <div class="jump"><a href="#features">Features</a><a href="#config">Config</a><a href="#cli">Command line</a></div>
+    <div class="jump"><a href="#start">Get started</a><a href="#features">Features</a><a href="#config">Config</a><a href="#cli">Command line</a></div>
   </section>
 
+  <section class="flist" id="start">
+    <h3>Get started</h3>
+    <p class="sub">Two minutes, no account.</p>
+    <table>
+        <tr><th>Install</th><td><a href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download the DMG</a>, drag Euclid into Applications, and open it from there. Or with Homebrew: <code>brew tap stellalie/euclid https://github.com/stellalie/euclid-bar-releases</code>, then <code>brew install --cask stellalie/euclid/euclid</code></td></tr>
+        <tr><th>First launch</th><td>Euclid asks once whether to share anonymous diagnostics (off unless you tick it), then opens the bar. It lives in the menu bar and starts at login</td></tr>
+        <tr><th>Open it anywhere</th><td><kbd>⌥Space</kbd>. To change it, set <code>hotkey = "cmd+shift+space"</code> in config.toml (menu bar icon → Edit Config…)</td></tr>
+        <tr><th>Find and open</th><td>Type a few letters of an app, file, project or anything you copied, then <kbd>↵</kbd>. <kbd>⇥</kbd> narrows to one source, <kbd>⌘K</kbd> shows what else you can do with a result, <kbd>⌘/</kbd> lists every key</td></tr>
+        <tr><th>Permissions</th><td>Only when you use something that needs one: Accessibility to paste clips and snippets into other apps (until then <kbd>↵</kbd> copies, so <kbd>⌘V</kbd> works), Full Disk Access for Safari history. Search <code>permissions</code> in Euclid to open the right pane</td></tr>
+        <tr><th>Uninstall</th><td>Menu bar icon → Quit Euclid, then drag it to the Trash. Your settings are in <code>~/.config/euclid</code>, its data in <code>~/Library/Application Support/Euclid</code></td></tr>
+    </table>
+  </section>
   <section id="features" class="docpart">
     <h2>Features</h2>
     <p class="sub"><em class="tag-plugin">plugin</em> means you add it with one command; <em>opt-in</em> means it's off until you turn it on.</p>
