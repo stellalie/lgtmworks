@@ -13,110 +13,93 @@
 <link rel="icon" href="icon.png">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="wrap">
+<body class="home">
 
-  <nav>
-    <img src="icon.png" alt="">
-    <span>Euclid</span>
-    <a class="maker" href="https://lgtm.ninja/">by lgtm ninja</a>
-    <div class="links">
-      <a href="#why">Why</a>
-      <a href="docs/">Docs</a>
-      <a href="plugins/">Plugins</a>
-      <a href="#pricing">Pricing</a>
-    </div>
-  </nav>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="./"><img src="icon.png" alt=""><span>Euclid</span></a>
+  <div class="links">
+    <a href="#product">Product</a>
+    <a href="#security">Security</a>
+    <a href="docs/">Docs</a>
+    <a href="plugins/">Plugins</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <div class="right">
+    <a class="btn" href="mailto:hello@lgtm.ninja">Contact</a>
+    <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download</a>
+  </div>
+</div></nav>
 
-  <header class="hero">
-    <img class="icon" src="icon.png" alt="Euclid app icon">
-    <h1>The shortest path from <br>thought to command.</h1>
-    <p class="lead">A native macOS launcher for developers. Press <kbd>⌥Space</kbd>, type, hit <kbd>↵</kbd>.
-      Instant, offline, and configured in one TOML file you can read top to bottom.</p>
-    <div class="cta">
-      <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download for macOS</a>
-      <a class="btn" href="#pricing">Pricing</a>
-    </div>
-    <p class="fine next">Open the download, drag Euclid to Applications, open it, then press <kbd>⌥Space</kbd> anywhere.</p>
-    <div class="brew">
-      <p class="fine">Or with Homebrew:</p>
-      <pre class="prompt"><button class="copy" type="button">Copy</button>brew tap stellalie/euclid https://github.com/stellalie/euclid-bar-releases
+<header class="c-hero"><div class="wrap">
+  <p class="label"><i>●</i> macOS 14+ · Apple Silicon and Intel · signed and notarized</p>
+  <h1>The shortest path from thought to command.</h1>
+  <p class="lead">A native macOS launcher for developers and their teams. Press <kbd>⌥Space</kbd>, type, hit <kbd>↵</kbd>.
+    Instant search across your Mac and your tools. No cloud, no account, no subscription.</p>
+  <div class="cta">
+    <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download for macOS</a>
+    <a class="btn" href="#security">Security overview</a>
+  </div>
+  <div class="install">
+    <p class="fine">Free for personal use, forever. Or with Homebrew:</p>
+    <pre class="prompt"><button class="copy" type="button">Copy</button>brew tap stellalie/euclid https://github.com/stellalie/euclid-bar-releases
 brew install --cask stellalie/euclid/euclid</pre>
+  </div>
+  <div class="frame">
+    <video src="demo.mp4" poster="poster.jpg" autoplay muted loop playsinline
+           aria-label="Euclid finding an app by its initials, searching clipboard, history, projects, notes and files at once, previewing, filtering with tab, answering developer queries, sending a question to an AI agent, plugins, script views with typed arguments, changing settings through an AI chat, and themes"></video>
+  </div>
+</div></header>
+
+<div class="wrap" id="numbers">
+  <div class="metrics">
+    <div><b>1.4 ms</b><span>search, 10,000 items, worst case</span></div>
+    <div><b>30 ms</b><span>to show the panel, median</span></div>
+    <div><b>60 MB</b><span>memory at idle, 0% CPU</span></div>
+    <div><b>0</b><span>accounts, trackers or cloud syncs</span></div>
+  </div>
+  <p class="metrics-note">Release build on a GitHub Actions macOS runner.
+    <a href="https://github.com/stellalie/euclid-bar-releases/blob/main/PERF.md">How we measure</a>.
+    The footer in the app shows the same timing on every search.</p>
+</div>
+
+<section id="product"><div class="wrap" id="why">
+  <p class="label">01 · Product</p>
+  <h2>Fast for one person. Consistent for a team.</h2>
+  <p class="sub">Native Swift, configured in a single file, extended with scripts your team already knows how to write.</p>
+  <div class="cols">
+    <div><span class="tagc">search</span><h3>One list for everything</h3><p>Apps, files, projects, clipboard, browser history and notes, ranked as you type. The footer says how long it took.</p></div>
+    <div><span class="tagc">native</span><h3>No Electron, no web views</h3><p>Native Swift with no JavaScript runtime. It opens in 30 ms and sits at 60 MB.</p></div>
+    <div><span class="tagc">ai</span><h3>Your agent, your model, your key</h3><p>Hand a question to Claude Code, Codex or a local model through Ollama. No Euclid AI plan, and none of it is required.</p></div>
+    <div><span class="tagc">config.toml</span><h3>Settings you can review</h3><p>Every action is one shell line in one plain text file. Keep it in git; it reloads on save.</p></div>
+    <div><span class="tagc">plugins/</span><h3>Your tools, inside</h3><p>GitHub, Jira, Bitbucket, Linear and Slack. A plugin is a short script in any language, easy to audit.</p></div>
+    <div><span class="tagc">team</span><h3>One shared setup</h3><p><code>include</code> a team file and point at a team plugin repo. Everyone keeps their own settings on top.</p></div>
+  </div>
+</div></section>
+
+<section id="security"><div class="wrap sec">
+  <div>
+    <p class="label">02 · Security</p>
+    <h2>Ready for your IT review.</h2>
+    <p class="sub">The questions a security team asks, answered up front. Nothing leaves your Mac unless you add a plugin that needs it.</p>
+    <div class="links">
+      <a href="docs/#network">Every network call, listed →</a>
+      <a href="privacy/">Privacy policy →</a>
+      <a href="mailto:hello@lgtm.ninja?subject=Euclid%20security%20question">Ask a security question →</a>
     </div>
-    <p class="fine">Free for personal use, forever · macOS 14+ · Apple Silicon and Intel · signed and notarized</p>
-    <ul class="promises">
-      <li><b>1.4 ms</b> search</li>
-      <li><b>No subscription</b>, ever</li>
-      <li><b>Bring your own AI</b>, or none</li>
-      <li><b>Works offline</b></li>
-      <li><b>Your setup is one folder</b>, put it in git</li>
-    </ul>
+  </div>
+  <div class="checks">
+    <div><span class="ok">✓</span><span>code signing</span><span class="v">Developer ID, notarized</span></div>
+    <div><span class="ok">✓</span><span>accounts</span><span class="v">none</span></div>
+    <div><span class="ok">✓</span><span>data location</span><span class="v">this Mac only</span></div>
+    <div><span class="ok">✓</span><span>network</span><span class="v">updates + your plugins, documented</span></div>
+    <div><span class="ok">✓</span><span>licence check</span><span class="v">offline</span></div>
+    <div><span class="ok">✓</span><span>diagnostics</span><span class="v">off unless you opt in</span></div>
+    <div><span class="ok">✓</span><span>secrets</span><span class="v">macOS Keychain</span></div>
+  </div>
+</div></section>
 
-    <div class="demo">
-      <video src="demo.mp4" poster="poster.jpg" autoplay muted loop playsinline
-             aria-label="Euclid finding an app by its initials, searching clipboard, history, projects, notes and files at once, previewing, filtering with tab, answering developer queries, sending a question to an AI agent, plugins, script views with typed arguments, changing settings through an AI chat, and themes"></video>
-    </div>
-    <div class="speed"><b>10,000</b> items · <b>1.4 ms</b> worst case</div>
-  </header>
-
-  <section id="numbers">
-    <div class="stats">
-      <div><b>1.4 ms</b><span>worst-case search over 10,000 items</span></div>
-      <div><b>30 ms</b><span>to show the panel (median)</span></div>
-      <div><b>60 MB</b><span>memory at idle, 0% CPU</span></div>
-      <div><b>0</b><span>accounts, trackers or cloud syncs</span></div>
-    </div>
-    <p class="fine">Release build on a GitHub Actions macOS runner, 25 October 2026.
-      <a href="https://github.com/stellalie/euclid-bar-releases/blob/main/PERF.md">How we measure</a>.
-      The footer in the app shows the same timing on every search.</p>
-  </section>
-
-  <section id="why">
-    <h2>Why Euclid</h2>
-    <p class="sub">Not another extension store or AI subscription. A sharp tool you configure like the rest of your setup.</p>
-    <div class="grid">
-      <div class="card">
-        <div class="num">01 · lightning fast</div>
-        <h3>Native Swift, no web views</h3>
-        <p>No Electron and no JavaScript runtime. Results update on every keystroke, and the footer
-          tells you how long it took.</p>
-      </div>
-      <div class="card">
-        <div class="num">02 · no AI lock-in</div>
-        <h3>Your agent, your model, your key</h3>
-        <p>AI is just another action. Hand a question to Claude Code, Codex, or a local model through
-          Ollama, in one keystroke. No Euclid AI plan, and none of it is required.</p>
-      </div>
-      <div class="card">
-        <div class="num">03 · offline by design</div>
-        <h3>Nothing leaves your Mac</h3>
-        <p>Your clipboard, history and index stay on disk. No account, nothing sent without asking, and the licence
-          is checked offline. It goes online only for update checks and plugins you add.
-          <a href="docs/#network">Every network call, listed.</a></p>
-      </div>
-      <div class="card">
-        <div class="num">04 · transparent config</div>
-        <h3>One TOML file, nothing hidden</h3>
-        <p>Every action is one shell line in <code>~/.config/euclid/config.toml</code>, and every
-          feature is one line you can switch off. Keep the folder in git; it reloads on save.</p>
-      </div>
-      <div class="card">
-        <div class="num">05 · extensible</div>
-        <h3>If it runs in a terminal, it's an action</h3>
-        <p>A plugin is a script that prints JSON, in any language. No SDK, no build step, no store
-          review. Share a team config and let agents search Euclid over MCP.</p>
-      </div>
-      <div class="card">
-        <div class="num">06 · no subscription</div>
-        <h3>Free for you. Pay once at work.</h3>
-        <p>No monthly plan for AI, sync or themes, and no cloud account. Your settings are a folder,
-          not someone's server.</p>
-      </div>
-    </div>
-  </section>
-
-
-  <section id="folder">
+<section id="folder"><div class="wrap">
+    <p class="label">03 · Your setup</p>
     <h2>Your whole setup is one folder. Put it in git.</h2>
     <p class="sub">Everything you configure lives in <code>~/.config/euclid</code>. Commit it with your dotfiles, and a new Mac is one <code>git clone</code> away.</p>
     <div class="two">
@@ -135,9 +118,10 @@ brew install --cask stellalie/euclid/euclid</pre>
         <li><b>Share with your team.</b> <code>include</code> a team file and point <code>[plugins] paths</code> at a team repo; your own settings still win.</li>
       </ul>
     </div>
-  </section>
+</div></section>
 
-  <section id="agent">
+<section id="agent"><div class="wrap">
+    <p class="label">04 · Build with your agent</p>
     <h2>Describe a plugin. Your agent builds it.</h2>
     <p class="sub">Say what you want in plain words. Paste the prompt into Claude Code, Codex or any agent with a shell.
       It reads the guide, writes the plugin, tests it with <code>--try-plugin</code>, and it shows up in the bar on save.</p>
@@ -158,9 +142,10 @@ brew install --cask stellalie/euclid/euclid</pre>
     </div>
 
     <p class="fine"><a href="plugins/#vibe">More prompts and how it works →</a></p>
-  </section>
+</div></section>
 
-  <section id="plugins">
+<section id="plugins"><div class="wrap">
+    <p class="label">05 · Plugins</p>
     <h2>Plugins are just scripts</h2>
     <p class="sub">A folder with a <code>plugin.toml</code> and a script in any language that prints one JSON object per line.
       No SDK, no build step, no store. Save it and it's in the bar.</p>
@@ -188,9 +173,10 @@ click = 'ghostty-run tab npx -y ccusage@latest daily'</pre>
     </div>
     <pre class="oneline">euclid-bar --plugin add github</pre>
     <p class="fine"><a href="plugins/">Browse plugins and starter prompts →</a> · <a href="plugins/#actions">or paste a one-line action</a></p>
-  </section>
+</div></section>
 
-  <section id="recipes">
+<section id="recipes"><div class="wrap">
+    <p class="label">06 · Actions</p>
     <h2>Actions: one line each</h2>
     <p class="sub">Your query arrives as <code>$1</code>, passed as an argument, never pasted into the command.</p>
     <pre><span class="k">[[action]]</span>                                   <span class="c"># ⌘1 and ⌘↵</span>
@@ -214,52 +200,33 @@ run   = 'open "https://github.com/search?type=code&amp;q=$EUCLID_QUERY_URL"'
 name = "Pretty-print JSON to clipboard"
 run  = 'printf %s "$1" | jq . | pbcopy'</pre>
     <p class="fine"><a href="plugins/#actions">Browse all actions →</a></p>
-  </section>
+</div></section>
 
-  <section id="pricing">
-    <h2>Free for you. Pay once at work.</h2>
-    <p class="sub">Personal use is free, forever, with every feature. Companies buy a one-time Business licence per seat. No subscription, ever.</p>
-    <div class="two">
-      <div class="card">
-        <span class="tag">Personal</span>
-        <div class="price">Free <small>forever</small></div>
-        <ul>
-          <li>For you, on all your Macs</li>
-          <li>Every feature and integration</li>
-          <li>All updates included</li>
-          <li>No account, no subscription</li>
-        </ul>
-        <div class="cta" style="justify-content:flex-start">
-          <a class="btn primary" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download free</a>
-        </div>
-      </div>
-      <div class="card pro">
-        <span class="tag">Business</span>
-        <div class="price">US$59 <small>per seat, one-time</small></div>
-        <ul>
-          <li>Required for use at work</li>
-          <li>Invoices and volume pricing</li>
-          <li>Licences move between people as your team changes</li>
-          <li>2 years of updates included</li>
-        </ul>
-        <a class="btn primary" href="#buy" data-price="business">Buy for your team</a>
-      </div>
-    </div>
-  </section>
+<section id="pricing"><div class="wrap">
+  <p class="label">07 · Pricing</p>
+  <h2>Free for you. Pay once at work.</h2>
+  <p class="sub">Every feature in both plans. No subscription, ever.</p>
+  <div class="plans">
+    <div class="plan"><p class="label">Personal</p><div class="amount">Free</div><div class="per">forever</div>
+      <ul><li>For you, on all your Macs</li><li>Every feature and integration</li><li>All updates included</li><li>No account, no subscription</li></ul>
+      <a class="btn" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download free</a></div>
+    <div class="plan"><p class="label">Business</p><div class="amount">US$59</div><div class="per">per seat · one-time</div>
+      <ul><li>Required for use at work</li><li>Invoices and volume pricing</li><li>Licences move between people as your team changes</li><li>2 years of updates included</li></ul>
+      <a class="btn primary" href="#buy" data-price="business">Buy for your team</a></div>
+  </div>
+</div></section>
 
-  <footer>
-    <span>© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
-    <a href="terms/">Terms</a>
-    <a href="privacy/">Privacy</a>
-    <a href="refunds/">Refunds</a>
-    <a href="docs/">Docs</a>
-    <a href="changelog/">Changelog</a>
-    <a href="feedback/">Feedback</a>
-    <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
-    <span>For people who live in the terminal.</span>
-  </footer>
+<footer class="bottom"><div class="wrap">
+  <span class="co">© 2026 <a href="https://lgtm.ninja/">LGTM Ninja</a> · Made in Sydney</span>
+  <a href="docs/">Docs</a>
+  <a href="changelog/">Changelog</a>
+  <a href="privacy/">Privacy</a>
+  <a href="terms/">Terms</a>
+  <a href="refunds/">Refunds</a>
+  <a href="feedback/">Feedback</a>
+  <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
+</div></footer>
 
-</div>
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
   // Paddle Billing checkout. The client-side token is public by design.
