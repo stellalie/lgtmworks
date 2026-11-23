@@ -69,7 +69,7 @@ brew install --cask stellalie/euclid/euclid</pre>
   <div class="cols">
     <div><span class="tagc">search</span><h3>One list for everything</h3><p>Apps, files, projects, clipboard, browser history and notes, ranked as you type. The footer says how long it took.</p></div>
     <div><span class="tagc">native</span><h3>No Electron, no web views</h3><p>Native Swift with no JavaScript runtime. It opens in 30 ms and sits at 60 MB.</p></div>
-    <div><span class="tagc">ai</span><h3>Your agent, your model, your key</h3><p>Hand a question to Claude Code, Codex or a local model through Ollama. No Euclid AI plan, and none of it is required.</p></div>
+    <div><span class="tagc">ai</span><h3>Your agent, your model, your key</h3><p>Hand a question to Claude Code, Codex or a local model through Ollama. Your agents can search Euclid back over <a href="docs/#connect-agents">MCP</a>. No Euclid AI plan, and none of it is required.</p></div>
     <div><span class="tagc">config.toml</span><h3>Settings you can review</h3><p>Every action is one shell line in one plain text file. Keep it in git; it reloads on save.</p></div>
     <div><span class="tagc">plugins/</span><h3>Your tools, inside</h3><p>GitHub, Jira, Bitbucket, Linear and Slack. A plugin is a short script in any language, easy to audit.</p></div>
     <div><span class="tagc">team</span><h3>One shared setup</h3><p><code>include</code> a team file and point at a team plugin repo. Everyone keeps their own settings on top.</p></div>
@@ -212,8 +212,14 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
       <a class="btn" data-dmg href="https://github.com/stellalie/euclid-bar-releases/releases/latest">Download free</a></div>
     <div class="plan"><p class="label">Business</p><div class="amount">US$59</div><div class="per">per seat · one-time</div>
       <ul><li>Required for use at work</li><li>Invoices and volume pricing</li><li>Licences move between people as your team changes</li><li>2 years of updates included</li></ul>
+      <div class="seats"><label for="seats">Seats</label>
+        <button type="button" class="btn" data-seat="-1" aria-label="One fewer seat">−</button>
+        <input id="seats" type="number" inputmode="numeric" min="1" max="999" value="1">
+        <button type="button" class="btn" data-seat="1" aria-label="One more seat">+</button>
+        <span class="total" id="seatTotal" aria-live="polite">US$59</span></div>
       <a class="btn primary" href="#buy" data-price="business">Buy for your team</a></div>
   </div>
+  <p class="fine">Raycast Teams Pro is US$144 per member every year. Euclid Business is US$59 per seat, once.</p>
 </div></section>
 
 <footer class="bottom"><div class="wrap">
@@ -249,9 +255,20 @@ run  = 'printf %s "$1" | jq . | pbcopy'</pre>
     b.addEventListener("click", (e) => {
       e.preventDefault();
       if (!PADDLE_TOKEN || !window.Paddle) { location.href = "mailto:hello@lgtm.ninja?subject=Buying%20Euclid"; return; }
-      Paddle.Checkout.open({ items: [PRICES[b.dataset.price]] });
+      const item = { ...PRICES[b.dataset.price] };
+      if (b.dataset.price === "business") item.quantity = seatCount();
+      Paddle.Checkout.open({ items: [item] });
     });
   }
+  // Business seat picker: one checkout for the whole team.
+  const seatInput = document.getElementById("seats");
+  const seatCount = () => Math.min(999, Math.max(1, parseInt(seatInput.value, 10) || 1));
+  const showTotal = () => (document.getElementById("seatTotal").textContent = "US$" + (59 * seatCount()).toLocaleString("en-US"));
+  seatInput.addEventListener("input", showTotal);
+  seatInput.addEventListener("change", () => { seatInput.value = seatCount(); showTotal(); });
+  for (const b of document.querySelectorAll("[data-seat]")) b.addEventListener("click", () => {
+    seatInput.value = seatCount() + Number(b.dataset.seat); seatInput.value = seatCount(); showTotal();
+  });
 </script>
 <script>
   // Download buttons fetch the DMG itself, not GitHub's release page (whose "Source code" zips
