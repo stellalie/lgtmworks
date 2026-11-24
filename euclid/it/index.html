@@ -34,6 +34,7 @@
       <li><b>Signed and notarized:</b> signed with an Apple Developer ID certificate and notarized by Apple.</li>
       <li><b>Native:</b> Swift and AppKit. No Electron, no web views, no bundled runtime.</li>
       <li><b>Install:</b> a standard DMG, or Homebrew (<code>brew install --cask stellalie/euclid/euclid</code>). It runs from <code>/Applications</code> or from the user's own <code>~/Applications</code>, so no admin rights are needed.</li>
+      <li><b>For MDM (Jamf, Intune, Kandji, Mosyle):</b> a signed and notarized installer package, <code>Euclid-&lt;version&gt;.pkg</code>, on each <a href="https://github.com/stellalie/euclid-bar-releases/releases/latest">release</a>. It installs <code>/Applications/Euclid.app</code>; from a terminal: <code>sudo installer -pkg Euclid-&lt;version&gt;.pkg -target /</code>. To roll out updates yourself, ship <code>[updates] check = false</code> in your company config.</li>
       <li><b>Runs on:</b> macOS 14 or later, Apple Silicon and Intel.</li>
     </ul>
 
