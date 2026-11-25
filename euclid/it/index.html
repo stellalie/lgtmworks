@@ -45,7 +45,7 @@
       <li><b>Usage ping</b>, same box: <code>reports.lgtm.ninja</code>, once a day, a random install ID plus app and macOS version. We don't store IP addresses.</li>
       <li><b>Plugins and actions the user adds</b> (for example a Jira plugin) connect only to the services they name, from the Mac, with the user's own credentials.</li>
       <li>No analytics, no advertising, no built-in AI service. The licence is checked offline.</li>
-      <li><b>AI agents</b> (Claude Code, Codex) can search Euclid only if the user connects them. They start <code>euclid-bar --mcp</code>, a local process that talks over stdin/stdout and opens no network port. <code>[agents] share</code> sets what they can read.</li>
+      <li><b>AI agents</b> (Claude Code, Codex) can search Euclid only if the user connects them. They start <code>euclid-bar --mcp</code>, a local process that talks over stdin/stdout and opens no network port. <code>[agents] share</code> sets what they can read. This works the same when Claude Code runs on Amazon Bedrock or Google Vertex AI, as many company setups do: Euclid only answers the agent on the Mac and never calls Bedrock, Vertex or any other AI service itself.</li>
     </ul>
 
     <h3>Data on the Mac</h3>
