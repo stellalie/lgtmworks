@@ -33,6 +33,32 @@
         <code>[updates] channel = "dev"</code>. <a id="dev-link" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/dev">Download</a></p>
     </div>
 
+    <section class="rel next" id="next">
+      <h3>Coming next <span>in review · not in a build yet</span></h3>
+      <ul>
+        <li><b>Your agents, one keystroke away.</b> The <code>herdr</code> plugin lists your coding agents live, the ones waiting on you first. <kbd>↵</kbd> jumps to that agent's pane.</li>
+      </ul>
+      <video class="clip" src="../clips/live-herdr.mp4" poster="../clips/live-herdr.jpg" muted loop playsinline preload="none" aria-label="herdr agents in the Euclid panel, the one that needs you first"></video>
+      <ul>
+        <li><b>Know when an agent needs you.</b> The bar says <code>1 needs you · 2 working</code>, and a notification pops up when an agent starts waiting. Click either to jump there.</li>
+      </ul>
+      <video class="clip" src="../clips/herdr-badge.mp4" poster="../clips/herdr-badge.jpg" muted loop playsinline preload="none" aria-label="The herdr badge on the Euclid search bar"></video>
+      <ul>
+        <li><b>Pick up any Claude Code session.</b> The <code>claude-sessions</code> plugin finds a session by what it was about. <kbd>↵</kbd> resumes it in Ghostty, in its own folder.</li>
+      </ul>
+      <video class="clip" src="../clips/claude-sessions.mp4" poster="../clips/claude-sessions.jpg" muted loop playsinline preload="none" aria-label="Typing login finds Claude Code sessions in Euclid"></video>
+      <p class="fine">Try them once they ship: <code>euclid-bar --plugin add herdr</code> · <code>euclid-bar --plugin add claude-sessions</code></p>
+    </section>
+
+    <section class="rel" id="v1.5.1">
+      <h3>1.5.1 <span>21 Nov 2026</span></h3>
+      <ul>
+        <li><b>The panel opens fast again.</b> Euclid no longer asks macOS about the login item every time you press the hotkey.</li>
+        <li><b>Updated</b> Sparkle and GRDB to their latest patch releases. Nothing changes for you.</li>
+      </ul>
+      <a class="dl" href="https://github.com/stellalie/euclid-bar-releases/releases/tag/v1.5.1">Download 1.5.1</a>
+    </section>
+
     <section class="rel" id="v1.5.0">
       <h3>1.5.0 <span>10 Nov 2026</span></h3>
       <ul>
@@ -106,6 +132,13 @@
     <a href="mailto:hello@lgtm.ninja">hello@lgtm.ninja</a>
   </footer>
 </div>
+<script>
+// Clips play while on screen.
+const clips = new IntersectionObserver((entries) => {
+  for (const e of entries) e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause();
+});
+for (const v of document.querySelectorAll("video.clip")) clips.observe(v);
+</script>
 <script>
 // Live dev build: the rolling "dev" release is replaced on every merge, so ask GitHub what's there now.
 // On any failure the static link above still works.

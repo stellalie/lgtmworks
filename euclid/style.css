@@ -328,6 +328,8 @@ video.clip { display: block; width: 100%; height: auto; aspect-ratio: 1240 / 680
 .changelog .rel h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 22px; }
 .rel h3 span { color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 500; margin-left: 10px; }
 .rel .dl { font-size: 14px; }
+.rel video.clip { max-width: 720px; margin: 4px 0 18px; }
+.rel.next h3 span { color: var(--accent); }
 .hero .next { margin: 12px 0 0; }
 
 /* Home, direction C (2026-11-14): grid-lit hero, mono section labels, bordered panels. */
